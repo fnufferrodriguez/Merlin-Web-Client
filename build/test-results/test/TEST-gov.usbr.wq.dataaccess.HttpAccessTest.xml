@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="gov.usbr.wq.dataaccess.HttpAccessTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-11-11T21:36:23" hostname="GHIDORAH" time="2.52">
+<testsuite name="gov.usbr.wq.dataaccess.HttpAccessTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-11-15T17:26:13" hostname="GHIDORAH" time="6.342">
   <properties/>
-  <testcase name="authenticate()" classname="gov.usbr.wq.dataaccess.HttpAccessTest" time="2.52"/>
+  <testcase name="authenticate()" classname="gov.usbr.wq.dataaccess.HttpAccessTest" time="6.342"/>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[Nov 11, 2021 1:36:25 PM gov.usbr.wq.dataaccess.HttpAccess authenticate
-INFO: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoid2Vic2VydmljZXVzZXIiLCJhZG1pbiI6IkZhbHNlIiwibmJmIjoxNjM2NjY2NTg2LCJleHAiOjE2MzY2NzAxODYsImlzcyI6Ik1lcmxpbldlYlNlcnZpY2UiLCJhdWQiOiJNZXJsaW5XZWJTZXJ2aWNlIn0.jzLUvwohlSMp10Vt_n1xhS-u7W2mB6LZOe59uK6WNiA
+  <system-err><![CDATA[Nov 15, 2021 9:26:19 AM gov.usbr.wq.dataaccess.HttpAccess authenticate
+INFO: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoid2Vic2VydmljZXVzZXIiLCJhZG1pbiI6IkZhbHNlIiwibmJmIjoxNjM2OTk3MTgyLCJleHAiOjE2MzcwMDA3ODIsImlzcyI6Ik1lcmxpbldlYlNlcnZpY2UiLCJhdWQiOiJNZXJsaW5XZWJTZXJ2aWNlIn0.41tRUK1n6L368ypYNe1UIpzln-QgjNcUkf6uiGkmzrA
 ]]></system-err>
 </testsuite>

@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccessTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-11-11T21:36:25" hostname="GHIDORAH" time="0.361">
+<testsuite name="gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccessTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2021-11-15T17:26:20" hostname="GHIDORAH" time="0.843">
   <properties/>
-  <testcase name="getProfiles()" classname="gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccessTest" time="0.361"/>
+  <testcase name="getMeasurementsByProfile()" classname="gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccessTest" time="0.76"/>
+  <testcase name="getProfiles()" classname="gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccessTest" time="0.083"/>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[Nov 11, 2021 1:36:26 PM gov.usbr.wq.dataaccess.HttpAccess authenticate
-INFO: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoid2Vic2VydmljZXVzZXIiLCJhZG1pbiI6IkZhbHNlIiwibmJmIjoxNjM2NjY2NTg3LCJleHAiOjE2MzY2NzAxODcsImlzcyI6Ik1lcmxpbldlYlNlcnZpY2UiLCJhdWQiOiJNZXJsaW5XZWJTZXJ2aWNlIn0.yYhC1nMY9yNpEbGKcZzHyQXEDKq_TOiHgFP5QZVlJ5w
-Nov 11, 2021 1:36:26 PM gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccessTest getProfiles
-INFO: [{"dprID":24,"dprName":"Shasta Lake - Modeling Flow and Elev."},{"dprID":25,"dprName":"Shasta Lake - Modeling WTemp."}]
+  <system-err><![CDATA[Nov 15, 2021 9:26:20 AM gov.usbr.wq.dataaccess.HttpAccess authenticate
+INFO: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoid2Vic2VydmljZXVzZXIiLCJhZG1pbiI6IkZhbHNlIiwibmJmIjoxNjM2OTk3MTgzLCJleHAiOjE2MzcwMDA3ODMsImlzcyI6Ik1lcmxpbldlYlNlcnZpY2UiLCJhdWQiOiJNZXJsaW5XZWJTZXJ2aWNlIn0.ugKu7cC3O4UflVdX56gtMKKGFIV3e4owweLSGr5gHDU
+Nov 15, 2021 9:26:20 AM gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccessTest getMeasurementsByProfile
+INFO: {class Profiles {
+    dprID: 24
+    dprName: Shasta Lake - Modeling Flow and Elev.
+}=null, class Profiles {
+    dprID: 25
+    dprName: Shasta Lake - Modeling WTemp.
+}=null}
+Nov 15, 2021 9:26:20 AM gov.usbr.wq.dataaccess.HttpAccess authenticate
+INFO: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoid2Vic2VydmljZXVzZXIiLCJhZG1pbiI6IkZhbHNlIiwibmJmIjoxNjM2OTk3MTg0LCJleHAiOjE2MzcwMDA3ODQsImlzcyI6Ik1lcmxpbldlYlNlcnZpY2UiLCJhdWQiOiJNZXJsaW5XZWJTZXJ2aWNlIn0.AZ3npC_PuBowyKi4IrB9U9wIwTS_pnrwdm2Ky-cKSW4
+Nov 15, 2021 9:26:20 AM gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccessTest getProfiles
+INFO: [class Profiles {
+    dprID: 24
+    dprName: Shasta Lake - Modeling Flow and Elev.
+}, class Profiles {
+    dprID: 25
+    dprName: Shasta Lake - Modeling WTemp.
+}]
 ]]></system-err>
 </testsuite>

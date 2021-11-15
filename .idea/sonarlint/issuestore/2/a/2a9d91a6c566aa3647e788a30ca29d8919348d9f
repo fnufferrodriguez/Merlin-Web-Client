@@ -1,0 +1,11 @@
+
+e	java:S116
+"QRename this field "_dprId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ë‡%
+h	java:S116"SRename this field "_dprName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(İ¬Ó
+
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¶û´ü8ØÊÕÿĞ/
+?
+java:S1068
+"*Remove this unused "_dprId" private field.(ë‡%
+B
+java:S1068",Remove this unused "_dprName" private field.(İ¬Ó

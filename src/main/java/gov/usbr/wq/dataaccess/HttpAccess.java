@@ -3,6 +3,7 @@ package gov.usbr.wq.dataaccess;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public final class HttpAccess
@@ -152,6 +153,19 @@ public final class HttpAccess
 		OkHttpClient client = HttpAccess.getOkHttpClient();
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(getDefaultWebServiceRoot() + api).newBuilder();
 		urlBuilder.addQueryParameter("token", token.getToken());
+		String url = urlBuilder.build().toString();
+		Request request = new Request.Builder().url(url).build();
+		Call call = client.newCall(request);
+		Response response = call.execute();
+		return response.body().string();
+	}
+
+	public String get(String api, JwtContainer token, Map<String,String> queryParams) throws IOException
+	{
+		OkHttpClient client = HttpAccess.getOkHttpClient();
+		final HttpUrl.Builder urlBuilder = HttpUrl.parse(getDefaultWebServiceRoot() + api).newBuilder();
+		urlBuilder.addQueryParameter("token", token.getToken());
+		queryParams.forEach(urlBuilder::addQueryParameter);
 		String url = urlBuilder.build().toString();
 		Request request = new Request.Builder().url(url).build();
 		Call call = client.newCall(request);
