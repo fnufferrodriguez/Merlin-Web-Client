@@ -3,7 +3,9 @@ package gov.usbr.wq.dataaccess;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public final class HttpAccess
@@ -11,7 +13,11 @@ public final class HttpAccess
 	private static final Logger LOGGER = Logger.getLogger(HttpAccess.class.getName());
 
 	//can also be built using OkHttpClient.
-	private static OkHttpClient _okHttpClient = new OkHttpClient.Builder().build();
+	private static OkHttpClient _okHttpClient = new OkHttpClient.Builder()
+		.callTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
+		.connectTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
+		.readTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
+		.build();
 	private final String _webServiceRoot;
 	private static final String _merlintokengenerationapi =  "/MerlinWebService/api/Account/GenerateToken";
 
