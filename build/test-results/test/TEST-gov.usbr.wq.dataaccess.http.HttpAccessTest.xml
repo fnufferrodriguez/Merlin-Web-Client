@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="gov.usbr.wq.dataaccess.http.HttpAccessTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-01-05T18:00:42" hostname="GHIDORAH" time="1.167">
-  <properties/>
-  <testcase name="authenticate()" classname="gov.usbr.wq.dataaccess.http.HttpAccessTest" time="1.167"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[Jan 05, 2022 10:00:43 AM gov.usbr.wq.dataaccess.http.HttpAccess authenticate
-INFO: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoid2Vic2VydmljZXVzZXIiLCJhZG1pbiI6IkZhbHNlIiwibmJmIjoxNjQxNDA1NjQzLCJleHAiOjE2NDE0MDkyNDMsImlzcyI6Ik1lcmxpbldlYlNlcnZpY2UiLCJhdWQiOiJNZXJsaW5XZWJTZXJ2aWNlIn0.245r5Y4s9ybI_He_I3aaejBogsoohB-Zh6_P2KEQf5Y
-]]></system-err>
-</testsuite>

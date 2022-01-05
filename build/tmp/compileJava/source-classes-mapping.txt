@@ -4,17 +4,17 @@ gov/usbr/wq/dataaccess/mapper/MerlinObjectMapper.java
  gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper
 gov/usbr/wq/dataaccess/json/Event.java
  gov.usbr.wq.dataaccess.json.Event
-gov/usbr/wq/dataaccess/http/HttpAccess.java
- gov.usbr.wq.dataaccess.http.HttpAccess
-gov/usbr/wq/dataaccess/MerlinTimeSeriesDataAccess.java
- gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccess
+gov/usbr/wq/dataaccess/Pair.java
+ gov.usbr.wq.dataaccess.Pair
+gov/usbr/wq/dataaccess/json/Data.java
+ gov.usbr.wq.dataaccess.json.Data
 gov/usbr/wq/dataaccess/jwt/JwtContainer.java
  gov.usbr.wq.dataaccess.jwt.JwtContainer
 gov/usbr/wq/dataaccess/json/Measure.java
  gov.usbr.wq.dataaccess.json.Measure
 gov/usbr/wq/dataaccess/json/Profile.java
  gov.usbr.wq.dataaccess.json.Profile
-gov/usbr/wq/dataaccess/json/Data.java
- gov.usbr.wq.dataaccess.json.Data
-gov/usbr/wq/dataaccess/Pair.java
- gov.usbr.wq.dataaccess.Pair
+gov/usbr/wq/dataaccess/http/HttpAccess.java
+ gov.usbr.wq.dataaccess.http.HttpAccess
+gov/usbr/wq/dataaccess/MerlinTimeSeriesDataAccess.java
+ gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccess

@@ -43,6 +43,8 @@ dependencies {
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.23'
 }
 
+// https://www.grabdata2.com/merlinwebservice/swagger/ui/index
+// https://editor.swagger.io/
 swaggerSources {
     merlin {
         inputFile = file("merlin-swagger.yaml")
