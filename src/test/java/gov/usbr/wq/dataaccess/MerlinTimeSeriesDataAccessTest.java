@@ -26,8 +26,8 @@ public class MerlinTimeSeriesDataAccessTest
 	@Test
 	void getProfiles() throws IOException
 	{
-		String username = "webserviceuser";
-		String password = "T3stUser!";
+		String username = ResourceAccess.getUsername();
+		String password = ResourceAccess.getPassword();
 		JwtContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<Profile> profiles = dataAccess.getProfiles(token);
@@ -38,8 +38,8 @@ public class MerlinTimeSeriesDataAccessTest
 	@Test
 	void getMeasurementsByProfile() throws IOException
 	{
-		String username = "webserviceuser";
-		String password = "T3stUser!";
+		String username = ResourceAccess.getUsername();
+		String password = ResourceAccess.getPassword();
 		JwtContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<Profile> profiles = dataAccess.getProfiles(token);
@@ -64,8 +64,8 @@ public class MerlinTimeSeriesDataAccessTest
 	@Test
 	void getEventsBySeries() throws IOException, HttpAccessException
 	{
-		String username = "webserviceuser";
-		String password = "T3stUser!";
+		String username = ResourceAccess.getUsername();
+		String password = ResourceAccess.getPassword();
 		JwtContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<Profile> profiles = dataAccess.getProfiles(token);
@@ -82,14 +82,14 @@ public class MerlinTimeSeriesDataAccessTest
 	@Test
 	void getEventsBySeriesMultiThread() throws IOException
 	{
-		String username = "webserviceuser";
-		String password = "T3stUser!";
+		String username = ResourceAccess.getUsername();
+		String password = ResourceAccess.getPassword();
 		JwtContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<Profile> profiles = dataAccess.getProfiles(token);
 
-		Instant start = ZonedDateTime.now().withYear(2010).withDayOfYear(1).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
-		Instant end = ZonedDateTime.now().withYear(2020).withDayOfYear(1).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
+		Instant start = ZonedDateTime.now().withYear(2019).withDayOfYear(1).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
+		Instant end = ZonedDateTime.now().withYear(2019).withDayOfYear(30).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
 		List<Pair<Profile, Map<Measure, Data>>> collect = profiles.stream()
 			.map((p) -> CompletableFuture.supplyAsync(() -> asyncMeasuresByProfile(dataAccess, token, p)))
 			.map((f) -> f.thenApplyAsync((p) -> asyncMeasureListToData(dataAccess, token, p, start, end)))

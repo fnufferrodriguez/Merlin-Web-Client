@@ -18,13 +18,7 @@ repositories {
     maven {
         url = uri('https://repo.maven.apache.org/maven2')
     }
-//    maven {
-//        url = uri('https://www.hec.usace.army.mil/nexus/repository/maven-public')
-//    }
 }
-
-
-//apply plugin: 'org.hidetake.swagger.generator'
 
 compileJava {
     sourceCompatibility = '1.8'
@@ -40,7 +34,6 @@ dependencies {
     implementation 'com.auth0:java-jwt:3.18.2'
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
-//    implementation ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.0")
     implementation 'org.springframework.boot:spring-boot-starter-websocket:2.3.12.RELEASE'
     implementation 'io.swagger:swagger-annotations:1.6.3'
     implementation 'org.springframework.boot:spring-boot-starter-validation:2.5.6'
