@@ -33,7 +33,7 @@ test {
 publishing {
     publications {
         maven(MavenPublication) {
-            artifactId = 'data-management'
+            artifactId = 'merlin-web-client'
             from components.java
         }
     }
