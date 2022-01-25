@@ -13,6 +13,7 @@ import gov.usbr.wq.dataaccess.json.Data;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableSet;
@@ -66,9 +67,9 @@ public final class DataWrapper
 		return new TreeSet<>(_events);
 	}
 
-	public LocalDateTime getStartTime()
+	public ZonedDateTime getStartTime()
 	{
-		LocalDateTime output = LocalDateTime.MIN;
+		ZonedDateTime output = LocalDateTime.MIN.atZone(getTimeZone());
 
 		if (!_events.isEmpty())
 		{
@@ -78,9 +79,9 @@ public final class DataWrapper
 		return output;
 	}
 
-	public LocalDateTime getEndTime()
+	public ZonedDateTime getEndTime()
 	{
-		LocalDateTime output = LocalDateTime.MAX;
+		ZonedDateTime output = LocalDateTime.MAX.atZone(getTimeZone());
 
 		if (!_events.isEmpty())
 		{

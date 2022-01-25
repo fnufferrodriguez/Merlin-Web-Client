@@ -12,6 +12,8 @@ import gov.usbr.wq.dataaccess.json.Event;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -21,13 +23,14 @@ import java.util.Objects;
 public final class EventWrapper implements Comparable<EventWrapper>
 {
 	private final Event _event;
-	private final LocalDateTime _date;
+	private final ZonedDateTime _date;
 
 	public EventWrapper(Event event)
 	{
 		_event = event;
-		_date = LocalDateTime.parse(_event.getDate(), DateTimeFormatter.ISO_DATE_TIME);
-		//We need to convert the String to Date instance, or consider doing a Date
+
+		//This ZonedDateTime conversion might be different later, but we want to return ZonedDateTimes
+		_date = _event.getDate().toZonedDateTime();
 	}
 
 	public Double getValue()
@@ -35,7 +38,7 @@ public final class EventWrapper implements Comparable<EventWrapper>
 		return _event.getValue();
 	}
 
-	public LocalDateTime getDate()
+	public ZonedDateTime getDate()
 	{
 		return _date;
 	}
