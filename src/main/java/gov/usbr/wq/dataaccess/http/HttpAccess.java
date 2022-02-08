@@ -1,6 +1,7 @@
 package gov.usbr.wq.dataaccess.http;
 
 import gov.usbr.wq.dataaccess.jwt.JwtContainer;
+import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-public final class HttpAccess
+public final class HttpAccess implements Access
 {
 	private static final Logger LOGGER = Logger.getLogger(HttpAccess.class.getName());
 
@@ -44,7 +45,8 @@ public final class HttpAccess
 		_webServiceRoot = webServiceRoot;
 	}
 
-	public JwtContainer authenticate(String user, String pass) throws IOException
+	@Override
+	public TokenContainer authenticate(String user, String pass) throws IOException
 	{
 		String apiUrl = _webServiceRoot + _merlintokengenerationapi;
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(apiUrl).newBuilder();
@@ -162,7 +164,8 @@ public final class HttpAccess
 		}
 	}
 
-	public String get(String api, JwtContainer token) throws IOException
+	@Override
+	public String get(String api, TokenContainer token) throws IOException
 	{
 		OkHttpClient client = HttpAccess.getOkHttpClient();
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(getDefaultWebServiceRoot() + api).newBuilder();
@@ -174,7 +177,8 @@ public final class HttpAccess
 		return response.body().string();
 	}
 
-	public String get(String api, JwtContainer token, Map<String,String> queryParams) throws IOException, HttpAccessException
+	@Override
+	public String get(String api, TokenContainer token, Map<String,String> queryParams) throws IOException, HttpAccessException
 	{
 		OkHttpClient client = HttpAccess.getOkHttpClient();
 		final HttpUrl.Builder urlBuilder = HttpUrl.parse(getDefaultWebServiceRoot() + api).newBuilder();

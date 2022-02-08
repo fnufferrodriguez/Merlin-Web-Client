@@ -2,10 +2,7 @@ package gov.usbr.wq.dataaccess;
 
 import gov.usbr.wq.dataaccess.http.HttpAccess;
 import gov.usbr.wq.dataaccess.http.HttpAccessException;
-import gov.usbr.wq.dataaccess.jwt.JwtContainer;
-import gov.usbr.wq.dataaccess.json.Data;
-import gov.usbr.wq.dataaccess.json.Measure;
-import gov.usbr.wq.dataaccess.json.Profile;
+import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 import gov.usbr.wq.dataaccess.model.DataWrapper;
 import gov.usbr.wq.dataaccess.model.MeasureWrapper;
 import gov.usbr.wq.dataaccess.model.ProfileWrapper;
@@ -21,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class MerlinTimeSeriesDataAccessTest
+class MerlinTimeSeriesDataAccessTest
 {
 
 	private static final Logger LOGGER = Logger.getLogger(MerlinTimeSeriesDataAccessTest.class.getName());
@@ -31,7 +28,7 @@ public class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		String password = ResourceAccess.getPassword();
-		JwtContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
+		TokenContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<ProfileWrapper> profiles = dataAccess.getProfiles(token);
 		Assertions.assertNotNull(profiles);
@@ -43,7 +40,7 @@ public class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		String password = ResourceAccess.getPassword();
-		JwtContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
+		TokenContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<ProfileWrapper> profiles = dataAccess.getProfiles(token);
 		Map<ProfileWrapper, List<MeasureWrapper>> measures = new HashMap<>();
@@ -69,7 +66,7 @@ public class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		String password = ResourceAccess.getPassword();
-		JwtContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
+		TokenContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<ProfileWrapper> profiles = dataAccess.getProfiles(token);
 		List<MeasureWrapper> measurementsByProfile = dataAccess.getMeasurementsByProfile(token, profiles.get(2));
@@ -87,7 +84,7 @@ public class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		String password = ResourceAccess.getPassword();
-		JwtContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
+		TokenContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<ProfileWrapper> profiles = dataAccess.getProfiles(token);
 
@@ -127,7 +124,7 @@ public class MerlinTimeSeriesDataAccessTest
 
 	}
 
-	private Pair<ProfileWrapper, List<MeasureWrapper>> asyncMeasuresByProfile(MerlinTimeSeriesDataAccess dataAccess, JwtContainer token, ProfileWrapper p)
+	private Pair<ProfileWrapper, List<MeasureWrapper>> asyncMeasuresByProfile(MerlinTimeSeriesDataAccess dataAccess, TokenContainer token, ProfileWrapper p)
 	{
 		List<MeasureWrapper> retval;
 		try
@@ -142,7 +139,7 @@ public class MerlinTimeSeriesDataAccessTest
 		return new Pair<>(p, retval);
 	}
 
-	private Pair<ProfileWrapper, Map<MeasureWrapper, DataWrapper>> asyncMeasureListToData(MerlinTimeSeriesDataAccess dataAccess, JwtContainer token, Pair<ProfileWrapper, List<MeasureWrapper>> p, Instant start, Instant end)
+	private Pair<ProfileWrapper, Map<MeasureWrapper, DataWrapper>> asyncMeasureListToData(MerlinTimeSeriesDataAccess dataAccess, TokenContainer token, Pair<ProfileWrapper, List<MeasureWrapper>> p, Instant start, Instant end)
 	{
 		Map<MeasureWrapper, DataWrapper> collect = p.b()
 			.stream()
@@ -152,7 +149,7 @@ public class MerlinTimeSeriesDataAccessTest
 		return new Pair<>(p.a(), collect);
 	}
 
-	private Pair<MeasureWrapper, DataWrapper> asyncDataByMeasure(JwtContainer token, MerlinTimeSeriesDataAccess dataAccess, MeasureWrapper measure, Instant start, Instant end)
+	private Pair<MeasureWrapper, DataWrapper> asyncDataByMeasure(TokenContainer token, MerlinTimeSeriesDataAccess dataAccess, MeasureWrapper measure, Instant start, Instant end)
 	{
 		DataWrapper eventsBySeries;
 		try
