@@ -1,6 +1,6 @@
 package gov.usbr.wq.dataaccess.http;
 
-public final class HttpAccessException extends Throwable
+public final class HttpAccessException extends Exception
 {
 	private final int _code;
 	private final String _body;

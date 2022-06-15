@@ -1,6 +1,7 @@
 package gov.usbr.wq.dataaccess.http;
 
 import gov.usbr.wq.dataaccess.jwt.JwtContainer;
+import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
@@ -12,186 +13,50 @@ import okhttp3.Response;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-public final class HttpAccess
+public final class HttpAccess implements Access
 {
-	private static final Logger LOGGER = Logger.getLogger(HttpAccess.class.getName());
 
-	//can also be built using OkHttpClient.
-	private static OkHttpClient _okHttpClient = new OkHttpClient.Builder()
-		.callTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
-		.connectTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
-		.readTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
-		.build();
-	private final String _webServiceRoot;
-	private static final String _merlintokengenerationapi =  "/MerlinWebService/api/Account/GenerateToken";
-
-	private static OkHttpClient getOkHttpClient()
+	public HttpAccess()
 	{
-		return _okHttpClient;
+
 	}
 
-	public static String getDefaultWebServiceRoot()
+	@Override
+	public String getJsonMeasurementsByProfileId(TokenContainer token, Integer profileId) throws IOException, HttpAccessException
 	{
-		return "https://www.grabdata2.com";
+		String api = "/MerlinWebService/GetMeasurementsByProfile";
+		Map<String, String> queryParams = new HashMap<>();
+		queryParams.put("profileID", String.valueOf(profileId));
+		return HttpAccessUtils.getJson(token, api, queryParams);
 	}
 
-	public HttpAccess(String webServiceRoot)
+	@Override
+	public String getJsonProfiles(TokenContainer token) throws IOException, HttpAccessException
 	{
-		_webServiceRoot = webServiceRoot;
+		String api = "/MerlinWebService/GetProfiles";
+		return HttpAccessUtils.getJson(token, api);
 	}
 
-	public JwtContainer authenticate(String user, String pass) throws IOException
+	@Override
+	public String getJsonEventsBySeries(TokenContainer token, String seriesString, Instant start, Instant end) throws IOException, HttpAccessException
 	{
-		String apiUrl = _webServiceRoot + _merlintokengenerationapi;
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(apiUrl).newBuilder();
-		//params in url
-		urlBuilder.addQueryParameter("username",user).addQueryParameter("password",pass);
-		String fullUrl = urlBuilder.build().toString();
-		//empty post body
-		FormBody body = new FormBody.Builder().build();
-		Request request = new Request.Builder().url(fullUrl).post(body).build();
-		OkHttpClient client = HttpAccess.getOkHttpClient();
-		String tokenString;
-		try (Response response = client.newCall(request).execute())
+		String api = "/MerlinWebService/GetEventsBySeriesString";
+		Map<String, String> queryParams = new HashMap<>();
+		queryParams.put("seriesString", seriesString);
+		if (start != null)
 		{
-			tokenString = response.body().string();
+			queryParams.put("startDate", start.toString());
 		}
-		//response token comes back quoted, strip quotes
-		if (tokenString.indexOf('"') != -1)
+		if (end != null)
 		{
-			tokenString = tokenString.replaceAll("\"","");
+			queryParams.put("endDate", end.toString());
 		}
-		LOGGER.info(tokenString);
-		return new JwtContainer(tokenString);
-	}
-
-//	public DecodedJWT authenticate(String user, String pass) throws IOException
-//	{
-//		String webServiceRoot = "https://www.grabdata2.com";
-//		String merlinTokenGenerationApi = "/MerlinWebService/api/Account/GenerateToken";
-//
-//		StringBuilder sb = new StringBuilder(webServiceRoot).append(merlinTokenGenerationApi).append("?username=").append(user).append("&password=").append(pass);
-//		String url = sb.toString();
-//		String tokenString = post(url, "");
-//		if (tokenString.indexOf('"') != -1)
-//		{
-//			tokenString = tokenString.replaceAll("\"","");
-//		}
-//		LOGGER.info(tokenString);
-//		DecodedJWT jwt = JWT.decode(tokenString);
-//		return jwt;
-//	}
-
-//	private String post(String url, String json) throws IOException
-//	{
-//		MediaType JSON = MediaType.get("application/json; charset=utf-8");
-//		OkHttpClient client = OkHttpAccess.getOkHttpClient();
-//		RequestBody body = RequestBody.create(JSON, json);
-//		Request request = new Request.Builder().url(url).post(body).build();
-//		try (Response response = client.newCall(request).execute())
-//		{
-//			return response.body().string();
-//		}
-//	}
-
-//	private String post(Request request) throws IOException
-//	{
-//		OkHttpClient client = HttpAccess.getOkHttpClient();
-//		try (Response response = client.newCall(request).execute())
-//		{
-//			return response.body().string();
-//		}
-//	}
-//
-//	private String post(String url, String json) throws IOException
-//	{
-//		MediaType JSON = MediaType.get("application/json; charset=utf-8");
-//		OkHttpClient client = HttpAccess.getOkHttpClient();
-//		RequestBody body =  RequestBody.create(JSON, json);
-//		Request request = new Request.Builder().url(url).post(body).build();
-//		try (Response response = client.newCall(request).execute())
-//		{
-//			return response.body().string();
-//		}
-//	}
-
-	private String get(String url) throws IOException
-	{
-		Request request = new Request.Builder().url(url).build();
-		OkHttpClient client = getOkHttpClient();
-		try (Response response = client.newCall(request).execute())
-		{
-			return response.body().string();
-		}
-	}
-
-//	public void getAsynch(String url)
-//	{
-//		Request request = new Request.Builder()
-//			.url(BASE_URL + "/date")
-//			.build();
-//
-//		Call call = client.newCall(request);
-//		call.enqueue(new Callback() {
-//			public void onResponse(Call call, Response response)
-//				throws IOException {
-//				// ...
-//			}
-//
-//			public void onFailure(Call call, IOException e) {
-//				fail();
-//			}
-//		});
-//	}
-
-
-
-	private String post(String url, String json) throws IOException
-	{
-		MediaType JSON = MediaType.get("application/json; charset=utf-8");
-		OkHttpClient client = HttpAccess.getOkHttpClient();
-		RequestBody body = RequestBody.create(JSON, json);
-		Request request = new Request.Builder().url(url).post(body).build();
-		try (Response response = client.newCall(request).execute())
-		{
-			return response.body().string();
-		}
-	}
-
-	public String get(String api, JwtContainer token) throws IOException
-	{
-		OkHttpClient client = HttpAccess.getOkHttpClient();
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(getDefaultWebServiceRoot() + api).newBuilder();
-		urlBuilder.addQueryParameter("token", token.getToken());
-		String url = urlBuilder.build().toString();
-		Request request = new Request.Builder().url(url).build();
-		Call call = client.newCall(request);
-		Response response = call.execute();
-		return response.body().string();
-	}
-
-	public String get(String api, JwtContainer token, Map<String,String> queryParams) throws IOException, HttpAccessException
-	{
-		OkHttpClient client = HttpAccess.getOkHttpClient();
-		final HttpUrl.Builder urlBuilder = HttpUrl.parse(getDefaultWebServiceRoot() + api).newBuilder();
-		urlBuilder.addQueryParameter("token", token.getToken());
-		queryParams.forEach(urlBuilder::addQueryParameter);
-		String url = urlBuilder.build().toString();
-		Request request = new Request.Builder().url(url).build();
-		Call call = client.newCall(request);
-		Response response = call.execute();
-		if (response.code() == 200)
-		{
-			//success
-			return response.body().string();
-		}
-		else
-		{
-			throw new HttpAccessException(response.code(),response.body().string());
-		}
+		return HttpAccessUtils.getJson(token, api, queryParams);
 	}
 }
