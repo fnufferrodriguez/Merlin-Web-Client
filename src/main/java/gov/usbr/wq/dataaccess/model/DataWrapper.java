@@ -156,4 +156,9 @@ public final class DataWrapper
 	{
 		return _data.toString();
 	}
+
+	public String getDataType()
+	{
+		return _data.getDataType();
+	}
 }

@@ -11,13 +11,13 @@ package gov.usbr.wq.dataaccess.http;
 import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 
 import java.io.IOException;
-import java.util.Map;
+import java.time.Instant;
 
 public interface Access
 {
-	String get(String api, TokenContainer token) throws IOException;
+	String getJsonMeasurementsByProfileId(TokenContainer container, Integer profileId) throws IOException, HttpAccessException;
 
-	String get(String api, TokenContainer token, Map<String, String> queryParams) throws IOException, HttpAccessException;
+	String getJsonProfiles(TokenContainer container) throws IOException, HttpAccessException;
 
-	TokenContainer authenticate(String user, String pass) throws IOException;
+	String getJsonEventsBySeries(TokenContainer container, String seriesString, Instant start, Instant end) throws IOException, HttpAccessException;
 }

@@ -2,6 +2,7 @@ package gov.usbr.wq.dataaccess;
 
 import gov.usbr.wq.dataaccess.http.HttpAccess;
 import gov.usbr.wq.dataaccess.http.HttpAccessException;
+import gov.usbr.wq.dataaccess.http.HttpAccessUtils;
 import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 import gov.usbr.wq.dataaccess.model.DataWrapper;
 import gov.usbr.wq.dataaccess.model.MeasureWrapper;
@@ -24,11 +25,11 @@ class MerlinTimeSeriesDataAccessTest
 	private static final Logger LOGGER = Logger.getLogger(MerlinTimeSeriesDataAccessTest.class.getName());
 
 	@Test
-	void getProfiles() throws IOException
+	void getProfiles() throws IOException, HttpAccessException
 	{
 		String username = ResourceAccess.getUsername();
 		String password = ResourceAccess.getPassword();
-		TokenContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
+		TokenContainer token = HttpAccessUtils.authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<ProfileWrapper> profiles = dataAccess.getProfiles(token);
 		Assertions.assertNotNull(profiles);
@@ -36,11 +37,11 @@ class MerlinTimeSeriesDataAccessTest
 	}
 
 	@Test
-	void getMeasurementsByProfile() throws IOException
+	void getMeasurementsByProfile() throws IOException, HttpAccessException
 	{
 		String username = ResourceAccess.getUsername();
 		String password = ResourceAccess.getPassword();
-		TokenContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
+		TokenContainer token = HttpAccessUtils.authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<ProfileWrapper> profiles = dataAccess.getProfiles(token);
 		Map<ProfileWrapper, List<MeasureWrapper>> measures = new HashMap<>();
@@ -66,7 +67,7 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		String password = ResourceAccess.getPassword();
-		TokenContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
+		TokenContainer token = HttpAccessUtils.authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<ProfileWrapper> profiles = dataAccess.getProfiles(token);
 		List<MeasureWrapper> measurementsByProfile = dataAccess.getMeasurementsByProfile(token, profiles.get(2));
@@ -80,11 +81,11 @@ class MerlinTimeSeriesDataAccessTest
 	}
 
 	@Test
-	void getEventsBySeriesMultiThread() throws IOException
+	void getEventsBySeriesMultiThread() throws IOException, HttpAccessException
 	{
 		String username = ResourceAccess.getUsername();
 		String password = ResourceAccess.getPassword();
-		TokenContainer token = new HttpAccess(HttpAccess.getDefaultWebServiceRoot()).authenticate(username, password);
+		TokenContainer token = HttpAccessUtils.authenticate(username, password);
 		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
 		List<ProfileWrapper> profiles = dataAccess.getProfiles(token);
 
