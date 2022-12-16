@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -34,15 +35,22 @@ public class HttpAccessUtils
 	static final String USERNAME_QUERY_PARAM = "username";
 	static final String PASSWORD_QUERY_PARAM = "password";
 
+	private static final String CALL_TIMEOUT_PROPERTY_KEY = "cwms.http.client.calltimeout.seconds";
+	private static final Duration CALL_TIMEOUT_PROPERTY_DEFAULT = Duration.ofSeconds(0);
+	private static final String CONNECT_TIMEOUT_PROPERTY_KEY = "cwms.http.client.connecttimeout.seconds";
+	private static final Duration CONNECT_TIMEOUT_PROPERTY_DEFAULT = Duration.ofSeconds(5);
+	private static final String READ_TIMEOUT_PROPERTY_KEY = "cwms.http.client.readtimeout.seconds";
+	private static final Duration READ_TIMEOUT_PROPERTY_DEFAULT = Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(5));
+
 	private HttpAccessUtils()
 	{
 	}
 
 	//can also be built using OkHttpClient.
 	static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
-			.callTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
-			.connectTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
-			.readTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
+			.callTimeout(getCallTimeout())
+			.connectTimeout(getConnectTimeout())
+			.readTimeout(getReadTimeout())
 			.build();
 
 	public static TokenContainer authenticate(String user, String pass) throws HttpAccessException
@@ -126,5 +134,38 @@ public class HttpAccessUtils
 	public static Access buildHttpAccess()
 	{
 		return new HttpAccess();
+	}
+
+	//This code below is copied from https://github.com/HydrologicEngineeringCenter/cwms-radar-client/blob/main/cwms-http-client/src/main/java/mil/army/usace/hec/cwms/http/client/OkHttpClientInstance.java
+	//Once we move to the cwms-http-client this will not be necessary.
+	private static Duration getReadTimeout()
+	{
+		return getDurationFromSystemProperty(READ_TIMEOUT_PROPERTY_KEY, READ_TIMEOUT_PROPERTY_DEFAULT);
+	}
+
+	private static Duration getConnectTimeout()
+	{
+		return getDurationFromSystemProperty(CONNECT_TIMEOUT_PROPERTY_KEY, CONNECT_TIMEOUT_PROPERTY_DEFAULT);
+	}
+
+	private static Duration getCallTimeout()
+	{
+		return getDurationFromSystemProperty(CALL_TIMEOUT_PROPERTY_KEY, CALL_TIMEOUT_PROPERTY_DEFAULT);
+	}
+
+	private static Duration getDurationFromSystemProperty(String readTimeoutPropertyKey, Duration readTimeoutPropertyDefault)
+	{
+		String readTimeoutPropertyValue = System.getProperty(readTimeoutPropertyKey);
+		Duration readTimeout = readTimeoutPropertyDefault;
+		if (readTimeoutPropertyValue == null)
+		{
+			LOGGER.log(Level.FINE, () -> "Setting " + readTimeoutPropertyKey + " is not set in system properties. Defaulting to " + readTimeoutPropertyDefault);
+		}
+		else
+		{
+			LOGGER.log(Level.FINE, () -> "Setting " + readTimeoutPropertyKey + " read from system properties as " + readTimeoutPropertyValue);
+			readTimeout = Duration.parse(readTimeoutPropertyValue);
+		}
+		return readTimeout;
 	}
 }
