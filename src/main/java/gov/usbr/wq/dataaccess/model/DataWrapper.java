@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.NavigableSet;
 import java.util.TimeZone;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 
 import static java.util.stream.Collectors.toList;
 
@@ -27,6 +28,8 @@ import static java.util.stream.Collectors.toList;
  */
 public final class DataWrapper
 {
+	private static final Logger LOGGER = Logger.getLogger(DataWrapper.class.getName());
+
 	private final Data _data;
 	private final NavigableSet<EventWrapper> _events = new TreeSet<>();
 	private final ZoneId _zoneId;
@@ -45,7 +48,7 @@ public final class DataWrapper
 			{
 				//Not sure what to do, for now stick with UTC
 				TimeZone tz = TimeZone.getTimeZone(data.getTimeZone());
-				System.out.println("Converting " + data.getTimeZone() + " to " + tz);
+				LOGGER.fine(() -> "Converting " + data.getTimeZone() + " to " + tz);
 				zoneId = tz.toZoneId();
 			}
 		}
