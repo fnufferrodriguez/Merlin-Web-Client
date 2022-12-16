@@ -71,7 +71,9 @@ public final class EventWrapper implements Comparable<EventWrapper>
 		{
 			return _date.compareTo(o.getDate());
 		}
-		return 0;
+
+		//Move nulls to the end of the list
+		return 1;
 	}
 
 	@Override
