@@ -9,7 +9,6 @@
 package gov.usbr.wq.dataaccess.http;
 
 import gov.usbr.wq.dataaccess.ResourceAccess;
-import gov.usbr.wq.dataaccess.jwt.JwtContainer;
 import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HttpAccessUtilsTest
 {
 	@Test
-	void testAuthenticate() throws IOException
+	void testAuthenticate() throws HttpAccessException
 	{
 		String password = ResourceAccess.getPassword();
 		String username = ResourceAccess.getUsername();

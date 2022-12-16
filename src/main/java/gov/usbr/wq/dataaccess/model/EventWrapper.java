@@ -9,12 +9,7 @@
 package gov.usbr.wq.dataaccess.model;
 
 import gov.usbr.wq.dataaccess.json.Event;
-import org.jetbrains.annotations.NotNull;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -70,7 +65,7 @@ public final class EventWrapper implements Comparable<EventWrapper>
 	}
 
 	@Override
-	public int compareTo(@NotNull EventWrapper o)
+	public int compareTo(EventWrapper o)
 	{
 		if (_date != null && o.getDate() != null)
 		{

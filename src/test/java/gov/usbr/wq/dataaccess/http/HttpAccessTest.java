@@ -12,12 +12,11 @@ import gov.usbr.wq.dataaccess.ResourceAccess;
 import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 class HttpAccessTest
 {
@@ -25,7 +24,7 @@ class HttpAccessTest
 	private static final String SHASTA_SERIES_ID = "Shasta Lake-Pit R. Branch-Montgomery Creek Flow/Flow/INST-VAL/1440/0/35-230.6.125.1.1";
 
 	@Test
-	void testGetJsonProfiles() throws IOException, HttpAccessException
+	void testGetJsonProfiles() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
 		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
@@ -35,7 +34,7 @@ class HttpAccessTest
 	}
 
 	@Test
-	void testGetJsonMeasurements() throws IOException, HttpAccessException
+	void testGetJsonMeasurements() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
 		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
@@ -45,7 +44,7 @@ class HttpAccessTest
 	}
 
 	@Test
-	void testGetJsonMeasurements_noData() throws IOException
+	void testGetJsonMeasurements_noData() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
 		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
@@ -53,7 +52,7 @@ class HttpAccessTest
 	}
 
 	@Test
-	void testGetJsonEvents_NoStartEnd() throws IOException, HttpAccessException
+	void testGetJsonEvents_NoStartEnd() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
 		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
@@ -63,7 +62,7 @@ class HttpAccessTest
 	}
 
 	@Test
-	void testGetJsonEvents_StartNoEnd() throws IOException, HttpAccessException
+	void testGetJsonEvents_StartNoEnd() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
 		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
@@ -76,7 +75,7 @@ class HttpAccessTest
 	}
 
 	@Test
-	void testGetJsonEvents_EndNoStart() throws IOException, HttpAccessException
+	void testGetJsonEvents_EndNoStart() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
 		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
@@ -88,7 +87,7 @@ class HttpAccessTest
 	}
 
 	@Test
-	void testGetJsonEvents_StartEnd() throws IOException, HttpAccessException
+	void testGetJsonEvents_StartEnd() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
 		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());

@@ -9,9 +9,9 @@
 package gov.usbr.wq.dataaccess.http;
 
 import gov.usbr.wq.dataaccess.ResourceAccess;
+import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 import gov.usbr.wq.dataaccess.json.Measure;
 import gov.usbr.wq.dataaccess.json.Profile;
-import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 import gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper;
 
 import java.nio.charset.StandardCharsets;

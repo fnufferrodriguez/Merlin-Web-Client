@@ -8,29 +8,21 @@
 
 package gov.usbr.wq.dataaccess.http;
 
-public final class HttpAccessException extends Exception
+public class HttpAccessException extends Exception
 {
-	private final int _code;
-	private final String _body;
 
 	public HttpAccessException(int code, String body)
 	{
-		_code = code;
-		_body = body;
+		super(constructMessage(code, body));
 	}
 
-	public int code()
+	public HttpAccessException(Exception ex)
 	{
-		return _code;
-	}
-	public String body()
-	{
-		return _body;
+		super(ex);
 	}
 
-	@Override
-	public String getMessage()
+	private static String constructMessage(int code, String body)
 	{
-		return "Code: "+code()+". Body: "+body();
+		return "Code: " + code + ". Body: " + body;
 	}
 }

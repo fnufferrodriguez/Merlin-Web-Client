@@ -8,9 +8,7 @@
 
 package gov.usbr.wq.dataaccess.http;
 
-import gov.usbr.wq.dataaccess.jwt.JwtContainer;
 import gov.usbr.wq.dataaccess.jwt.TokenContainer;
-import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -40,8 +38,6 @@ public class HttpAccessUtils
 	{
 	}
 
-	public
-
 	//can also be built using OkHttpClient.
 	static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
 			.callTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
@@ -49,28 +45,20 @@ public class HttpAccessUtils
 			.readTimeout(Duration.ofSeconds(TimeUnit.MINUTES.toSeconds(1)))
 			.build();
 
-	public static TokenContainer authenticate(String user, String pass) throws IOException
+	public static TokenContainer authenticate(String user, String pass) throws HttpAccessException
 	{
 		String apiUrl = WEB_SERVICE_ROOT + MERLIN_WEB_SERVICE_API_ACCOUNT_GENERATE_TOKEN;
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(apiUrl)
-											.newBuilder();
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(apiUrl).newBuilder();
 		//params in url
 		urlBuilder.addQueryParameter(USERNAME_QUERY_PARAM, user)
 				  .addQueryParameter(PASSWORD_QUERY_PARAM, pass);
-		String fullUrl = urlBuilder.build()
-								   .toString();
+		String fullUrl = urlBuilder.build().toString();
 		//empty post body
 		FormBody body = new FormBody.Builder().build();
-		Request request = new Request.Builder().url(fullUrl)
-											   .post(body)
-											   .build();
-		String tokenString;
-		try (Response response = OK_HTTP_CLIENT.newCall(request)
-											   .execute())
-		{
-			tokenString = response.body()
-								  .string();
-		}
+		Request request = new Request.Builder().url(fullUrl).post(body).build();
+
+		String tokenString = getRequestBodyString(request);
+
 		//response token comes back quoted, strip quotes
 		if (tokenString.indexOf('"') != -1)
 		{
@@ -79,66 +67,57 @@ public class HttpAccessUtils
 		return new JwtContainer(tokenString);
 	}
 
-	static String getNoToken(String url) throws IOException
+	static String getNoToken(String url) throws HttpAccessException
 	{
-		Request request = new Request.Builder().url(url)
-											   .build();
-		try (Response response = HttpAccessUtils.OK_HTTP_CLIENT.newCall(request)
-															   .execute())
-		{
-			return response.body()
-						   .string();
-		}
+		Request request = new Request.Builder().url(url).build();
+		return getRequestBodyString(request);
 	}
 
-	static String postJsonNoToken(String url, String json) throws IOException
+	static String postJsonNoToken(String url, String json) throws HttpAccessException
 	{
 		MediaType mediaType = MediaType.get("application/json; charset=utf-8");
 		RequestBody body = RequestBody.create(mediaType, json);
-		Request request = new Request.Builder().url(url)
-											   .post(body)
-											   .build();
-		try (Response response = HttpAccessUtils.OK_HTTP_CLIENT.newCall(request)
-															   .execute())
-		{
-			return response.body()
-						   .string();
-		}
+		Request request = new Request.Builder().url(url).post(body).build();
+		return getRequestBodyString(request);
 	}
 
-	static String getJson(TokenContainer token, String api) throws IOException, HttpAccessException
+	static String getJson(TokenContainer token, String api) throws HttpAccessException
 	{
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(WEB_SERVICE_ROOT + api)
-											.newBuilder();
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(WEB_SERVICE_ROOT + api).newBuilder();
 		urlBuilder.addQueryParameter("token", token.getToken());
 		return getJson(urlBuilder);
 	}
 
-	private static String getJson(HttpUrl.Builder urlBuilder) throws IOException, HttpAccessException
+	private static String getJson(HttpUrl.Builder urlBuilder) throws HttpAccessException
 	{
-		String url = urlBuilder.build()
-							   .toString();
-		Request request = new Request.Builder().url(url)
-											   .build();
-		Call call = OK_HTTP_CLIENT.newCall(request);
-		Response response = call.execute();
-		if (response.code() == 200)
+		String url = urlBuilder.build().toString();
+		Request request = new Request.Builder().url(url).build();
+		return getRequestBodyString(request);
+	}
+
+	private static String getRequestBodyString(Request request) throws HttpAccessException
+	{
+		try(Response response = OK_HTTP_CLIENT.newCall(request).execute())
 		{
-			//success
-			return response.body()
-						   .string();
+			if (response.code() == 200)
+			{
+				//success
+				return response.body().string();
+			}
+			else
+			{
+				throw new HttpAccessException(response.code(), response.body().string());
+			}
 		}
-		else
+		catch (IOException ex)
 		{
-			throw new HttpAccessException(response.code(), response.body()
-																   .string());
+			throw new HttpAccessException(ex);
 		}
 	}
 
-	static String getJson(TokenContainer token, String api, Map<String, String> queryParams) throws IOException, HttpAccessException
+	static String getJson(TokenContainer token, String api, Map<String, String> queryParams) throws HttpAccessException
 	{
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(WEB_SERVICE_ROOT + api)
-											.newBuilder();
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(WEB_SERVICE_ROOT + api).newBuilder();
 		urlBuilder.addQueryParameter("token", token.getToken());
 		queryParams.forEach(urlBuilder::addQueryParameter);
 		return getJson(urlBuilder);
