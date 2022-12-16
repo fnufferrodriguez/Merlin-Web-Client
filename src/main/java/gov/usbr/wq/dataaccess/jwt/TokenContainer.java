@@ -1,9 +1,9 @@
 /*
- * Copyright 2019  Hydrologic Engineering Center (HEC).
- * United States Army Corps of Engineers
- * All Rights Reserved.  HEC PROPRIETARY/CONFIDENTIAL.
+ * Copyright 2022 United States Bureau of Reclamation (USBR).
+ * United States Department of the Interior
+ * All Rights Reserved. USBR PROPRIETARY/CONFIDENTIAL.
  * Source may not be released without written approval
- * from HEC
+ * from USBR.
  */
 
 package gov.usbr.wq.dataaccess.jwt;
