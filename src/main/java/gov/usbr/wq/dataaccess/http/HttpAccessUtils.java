@@ -105,6 +105,11 @@ public class HttpAccessUtils
 
 	private static String getRequestBodyString(Request request) throws HttpAccessException
 	{
+		HttpUrl url = request.url();
+		String scheme = url.scheme();
+		String host = url.host();
+		String path = String.join("/", url.pathSegments());
+		LOGGER.fine(() -> "Calling " + scheme + "://" + host + "/" + path);
 		try(Response response = OK_HTTP_CLIENT.newCall(request).execute())
 		{
 			if (response.code() == 200)

@@ -8,8 +8,14 @@
 
 package gov.usbr.wq.dataaccess;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 public final class ResourceAccess
 {
@@ -23,16 +29,39 @@ public final class ResourceAccess
 
 	private static void validateSetup()
 	{
-		String username = System.getProperty(USERNAME_PROPERTY);
-		String password = System.getProperty(PASSWORD_PROPERTY);
+		URL userConfigUrl = ResourceAccess.class.getClassLoader().getResource("gov/usbr/wq/dataaccess/user.config");
 		List<String> errors = new ArrayList<>();
-		if (username == null)
+		if (userConfigUrl == null)
 		{
-			errors.add("\tUsername missing from VM parameters.  Example usage: " + USERNAME_PROPERTY + "=myusername");
+			errors.add("user.config file is missing from local file system.  Expected this at src/test/resources/gov/usbr/wq/dataaccess/user.config - see readme in the same folder for details.");
 		}
-		if (password == null)
+		else
 		{
-			errors.add("\tPassword missing from VM parameters.  Example usage: " + PASSWORD_PROPERTY + "=mypassword");
+			Properties properties = new Properties();
+			try(InputStream stream = userConfigUrl.openStream())
+			{
+				properties.load(stream);
+			}
+			catch (IOException ex)
+			{
+				throw new UnsupportedOperationException("Unable to load properties file from " + userConfigUrl, ex);
+			}
+
+			for (String name : properties.stringPropertyNames())
+			{
+				System.setProperty(name, properties.getProperty(name));
+			}
+
+			String username = System.getProperty(USERNAME_PROPERTY);
+			String password = System.getProperty(PASSWORD_PROPERTY);
+			if (username == null)
+			{
+				errors.add("\tUsername missing from user.config.  Example usage: " + USERNAME_PROPERTY + "=myusername");
+			}
+			if (password == null)
+			{
+				errors.add("\tPassword missing from user.config.  Example usage: " + PASSWORD_PROPERTY + "=mypassword");
+			}
 		}
 
 		if (!errors.isEmpty())
