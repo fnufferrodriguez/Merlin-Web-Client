@@ -3,6 +3,7 @@ plugins {
     id 'java'
     id 'org.hidetake.swagger.generator' version '2.18.2'
     id 'maven-publish'
+    id 'project-report'
 }
 
 apply plugin: 'java'
@@ -53,6 +54,10 @@ dependencies {
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.23'
 }
 
+task generateMyDependenciesReport(type: DependencyReportTask) { depReport ->
+depReport.setConfiguration("runtimeClasspath")
+}
+
 // https://www.grabdata2.com/merlinwebservice/swagger/ui/index
 // https://editor.swagger.io/
 swaggerSources {
@@ -85,4 +90,3 @@ build.dependsOn generateSwaggerCode
 //        }
 //    }
 //}
-
