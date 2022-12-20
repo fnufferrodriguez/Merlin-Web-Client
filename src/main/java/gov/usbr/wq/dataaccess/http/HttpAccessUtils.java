@@ -75,13 +75,13 @@ public class HttpAccessUtils
 		return new JwtContainer(tokenString);
 	}
 
-	static String getNoToken(String url) throws HttpAccessException
+	static String getJsonWithoutToken(String url) throws HttpAccessException
 	{
 		Request request = new Request.Builder().url(url).build();
 		return getRequestBodyString(request);
 	}
 
-	static String postJsonNoToken(String url, String json) throws HttpAccessException
+	static String postJsonWithoutToken(String url, String json) throws HttpAccessException
 	{
 		MediaType mediaType = MediaType.get("application/json; charset=utf-8");
 		RequestBody body = RequestBody.create(mediaType, json);
