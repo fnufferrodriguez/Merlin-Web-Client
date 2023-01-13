@@ -15,7 +15,7 @@ import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-final class JwtContainer implements TokenContainer
+public final class JwtContainer implements TokenContainer
 {
 	private static final Logger LOGGER = Logger.getLogger(JwtContainer.class.getName());
 	private final String _token;
