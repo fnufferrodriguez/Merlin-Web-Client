@@ -68,7 +68,6 @@ public class HttpAccessUtils
 		//hopefully this can be updated in future to not have password as a parameter
 		urlBuilder.addQueryParameter(USERNAME_QUERY_PARAM, user)
 				  .addQueryParameter(PASSWORD_QUERY_PARAM, String.valueOf(pass));
-		Arrays.fill(pass, '\0');
 		String fullUrl = urlBuilder.build().toString();
 		//empty post body
 		FormBody body = new FormBody.Builder().build();
@@ -148,7 +147,7 @@ public class HttpAccessUtils
 				//success
 				String bodyString = response.body().string();
 				String secureBodyString = bodyString;
-				if(isResponseAToken(bodyString.replace("\"", "")))
+				if(isResponseAToken(bodyString))
 				{
 					secureBodyString = "<TOKEN REDACTED>";
 				}
@@ -175,6 +174,7 @@ public class HttpAccessUtils
 
 	private static boolean isResponseAToken(String responseBody)
 	{
+		responseBody = responseBody.replace("\"", "");
 		boolean retval = true;
 		try
 		{

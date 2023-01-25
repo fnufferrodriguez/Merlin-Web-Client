@@ -235,7 +235,7 @@ class MerlinTimeSeriesDataAccessTest
 		Map<MeasureWrapper, DataWrapper> collect = p.b()
 			.stream()
 			.map(m -> CompletableFuture.supplyAsync(() -> asyncDataByMeasure(token, dataAccess, m, start, end)))
-			.map(f -> f.join())
+			.map(CompletableFuture::join)
 			.collect(Collectors.toMap(Pair::a, Pair::b));
 		return new Pair<>(p.a(), collect);
 	}
