@@ -19,7 +19,6 @@ public class Iso8601Support
 			.map(id -> String.format("%s:%s,%s,%s", hourFormat(id.getRules().getOffset(newYears).getTotalSeconds() / 3600),
 				minuteFormat(Math.abs(id.getRules().getOffset(newYears).getTotalSeconds() % 3600 / 60)), id.getId(), id.getRules().getTransitions().size() > 1))
 			.forEach(s -> System.out.println(s));
-
 	}
 
 	private static String minuteFormat(int i)
