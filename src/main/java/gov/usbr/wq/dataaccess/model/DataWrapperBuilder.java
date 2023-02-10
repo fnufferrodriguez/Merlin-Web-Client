@@ -1,11 +1,11 @@
 package gov.usbr.wq.dataaccess.model;
 
+import java.util.NavigableSet;
+
 import gov.usbr.wq.dataaccess.json.Data;
 import gov.usbr.wq.dataaccess.json.Event;
 
-import java.util.List;
-
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 public final class DataWrapperBuilder
 {
@@ -22,8 +22,24 @@ public final class DataWrapperBuilder
     private String _units;
     private String _timeZone;
     private String _seriesString;
-    private List<EventWrapper> _events;
+    private NavigableSet<EventWrapper> _events;
 
+    public DataWrapperBuilder withDataWrapper(DataWrapper dataWrapper)
+    {
+        return this.withParameter(dataWrapper.getParameter())
+                .withDataType(dataWrapper.getDataType())
+                .withUnits(dataWrapper.getUnits())
+                .withDuration(dataWrapper.getDuration())
+                .withEvents(dataWrapper.getEvents())
+                .withLatitude(dataWrapper.getLatitude())
+                .withLongitude(dataWrapper.getLongitude())
+                .withMeasurement(dataWrapper.getMeasurement())
+                .withSensor(dataWrapper.getSensor())
+                .withProject(dataWrapper.getProject())
+                .withStation(dataWrapper.getStation())
+                .withSeriesString(dataWrapper.getSeriesId())
+                .withTimestep(dataWrapper.getTimestep());
+    }
     public DataWrapperBuilder withProject(String project)
     {
         _project = project;
@@ -102,7 +118,7 @@ public final class DataWrapperBuilder
         return this;
     }
 
-    public DataWrapperBuilder withEvents(List<EventWrapper> events)
+    public DataWrapperBuilder withEvents(NavigableSet<EventWrapper> events)
     {
         _events = events;
         return this;

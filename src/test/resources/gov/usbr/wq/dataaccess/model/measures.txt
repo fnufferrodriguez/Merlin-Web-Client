@@ -1,0 +1,4 @@
+ MR Am.-Lower American R.-Mather Airforce Base-Cloud Cover/Cloud Cover/INST-VAL/60, 58, 57/0/58-252.50.129.1.1
+ MR Am.-Lower American R.-Mather Airforce Base-Cloud Cover/Cloud Cover/INST-VAL/60, 58, 57/0/147-252.50.129.1.1
+ MR Sac.-Trinity River-TCAC1 - Calc Data-Cloud Cover/Cloud Cover/INST-VAL/1440/0/158-236.9.129.1.1
+ MR Sac.-Clear Cr. to Sac R.-RRAC1-Cloud/Cloud Cover/INST-VAL/60/0/164-235.41.129.1.1

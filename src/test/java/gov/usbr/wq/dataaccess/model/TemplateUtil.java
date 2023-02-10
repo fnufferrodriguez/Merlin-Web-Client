@@ -1,4 +1,4 @@
-package gov.usbr.wq.dataaccess;
+package gov.usbr.wq.dataaccess.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,11 +11,10 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccess;
+import gov.usbr.wq.dataaccess.TokenUtil;
 import gov.usbr.wq.dataaccess.http.HttpAccessException;
-import gov.usbr.wq.dataaccess.http.HttpAccessUtils;
 import gov.usbr.wq.dataaccess.jwt.TokenContainer;
-import gov.usbr.wq.dataaccess.model.MeasureWrapper;
-import gov.usbr.wq.dataaccess.model.TemplateWrapper;
 
 public class TemplateUtil
 {
@@ -51,7 +50,7 @@ public class TemplateUtil
 	private static List<String> logParameters(final ExecutorService executorService)
 			throws HttpAccessException, ExecutionException, InterruptedException
 	{
-		TokenContainer token = getToken();
+		TokenContainer token = TokenUtil.getToken();
 		List<TemplateWrapper> templateWrappers = retrieveTemplates(token);
 		final List<String> rows = new ArrayList<>();
 		rows.add("Template ID | Template | Measure | Parameter");
@@ -80,14 +79,6 @@ public class TemplateUtil
 			future.get();
 		}
 		return rows;
-	}
-
-	private static TokenContainer getToken() throws HttpAccessException
-	{
-		String username = ResourceAccess.getUsername();
-		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(username, password);
-		return token;
 	}
 
 	private static List<TemplateWrapper> retrieveTemplates(final TokenContainer token)

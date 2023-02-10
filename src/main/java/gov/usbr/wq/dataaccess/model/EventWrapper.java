@@ -8,9 +8,10 @@
 
 package gov.usbr.wq.dataaccess.model;
 
-import gov.usbr.wq.dataaccess.json.Event;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+
+import gov.usbr.wq.dataaccess.json.Event;
 
 /**
  * Created by Ryan Miles
@@ -81,4 +82,5 @@ public final class EventWrapper implements Comparable<EventWrapper>
 	{
 		return _event.toString();
 	}
+
 }

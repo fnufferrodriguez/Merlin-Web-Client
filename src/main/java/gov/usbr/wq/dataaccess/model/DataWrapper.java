@@ -8,8 +8,6 @@
 
 package gov.usbr.wq.dataaccess.model;
 
-import gov.usbr.wq.dataaccess.json.Data;
-
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -22,6 +20,8 @@ import java.util.TimeZone;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import gov.usbr.wq.dataaccess.json.Data;
 
 import static java.util.stream.Collectors.toList;
 
