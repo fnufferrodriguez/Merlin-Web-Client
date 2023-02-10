@@ -5,6 +5,8 @@ import gov.usbr.wq.dataaccess.json.Event;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.*;
+
 public final class DataWrapperBuilder
 {
     private String _project;
@@ -20,7 +22,7 @@ public final class DataWrapperBuilder
     private String _units;
     private String _timeZone;
     private String _seriesString;
-    private List<Event> _events;
+    private List<EventWrapper> _events;
 
     public DataWrapperBuilder withProject(String project)
     {
@@ -100,7 +102,7 @@ public final class DataWrapperBuilder
         return this;
     }
 
-    public DataWrapperBuilder withEvents(List<Event> events)
+    public DataWrapperBuilder withEvents(List<EventWrapper> events)
     {
         _events = events;
         return this;
@@ -113,7 +115,9 @@ public final class DataWrapperBuilder
         data.setDataType(_dataType);
         data.setUnits(_units);
         data.setDuration(_duration);
-        data.setEvents(_events);
+        data.setEvents(_events.stream()
+                .map(this::convertEventWrapperToEvent)
+                .collect(toList()));
         data.setLatitude(_latitude);
         data.setLongitude(_longitude);
         data.setMeasurement(_measurement);
@@ -124,6 +128,15 @@ public final class DataWrapperBuilder
         data.setTimeZone(_timeZone);
         data.setTimestep(_timestep);
         return new DataWrapper(data);
+    }
+
+    private Event convertEventWrapperToEvent(EventWrapper eventWrapper)
+    {
+        Event event = new Event();
+        event.setValue(eventWrapper.getValue());
+        event.setDate(eventWrapper.getDate().toOffsetDateTime());
+        event.setQuality(eventWrapper.getQuality());
+        return event;
     }
 
 }
