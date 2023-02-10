@@ -203,6 +203,8 @@ definitions:
       seriesString:
         description: Series name
         type: string
+      isProcessed:
+        type: boolean
   QualityVersions:
     type: object
     properties:

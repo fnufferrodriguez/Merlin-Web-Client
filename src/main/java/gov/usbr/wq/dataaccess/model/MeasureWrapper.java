@@ -34,6 +34,11 @@ public final class MeasureWrapper
 		return _measure.getTypID();
 	}
 
+	public Boolean isProcessed()
+	{
+		return _measure.isIsProcessed();
+	}
+
 	@Override
 	public boolean equals(Object o)
 	{
