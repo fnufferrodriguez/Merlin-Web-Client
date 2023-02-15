@@ -57,9 +57,9 @@ public class HttpAccessUtils
 			.readTimeout(getReadTimeout())
 			.build();
 
-	public static TokenContainer authenticate(String rootUrl, String user, char[] pass) throws HttpAccessException
+	public static TokenContainer authenticate(ApiConnectionInfo connectionInfo, String user, char[] pass) throws HttpAccessException
 	{
-		String apiUrl = rootUrl + MERLIN_WEB_SERVICE_API_ACCOUNT_GENERATE_TOKEN;
+		String apiUrl = connectionInfo.getApiRoot() + MERLIN_WEB_SERVICE_API_ACCOUNT_GENERATE_TOKEN;
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(apiUrl).newBuilder();
 		//params in url
 		//hopefully this can be updated in future to not have password as a parameter
@@ -94,9 +94,9 @@ public class HttpAccessUtils
 		return getRequestBodyString(request);
 	}
 
-	static String getJsonWithToken(String rootUrl, TokenContainer token, String api) throws HttpAccessException
+	static String getJsonWithToken(ApiConnectionInfo connectionInfo, TokenContainer token, String api) throws HttpAccessException
 	{
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(rootUrl + api).newBuilder();
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(connectionInfo.getApiRoot() + api).newBuilder();
 		urlBuilder.addQueryParameter("token", token.getToken());
 		return getJsonWithUrlBuilder(urlBuilder);
 	}
@@ -184,9 +184,9 @@ public class HttpAccessUtils
 		return retval;
 	}
 
-	static String getJsonWithToken(String rootUrl, TokenContainer token, String api, Map<String, String> queryParams) throws HttpAccessException
+	static String getJsonWithToken(ApiConnectionInfo connectionInfo, TokenContainer token, String api, Map<String, String> queryParams) throws HttpAccessException
 	{
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(rootUrl + api).newBuilder();
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(connectionInfo.getApiRoot() + api).newBuilder();
 		urlBuilder.addQueryParameter("token", token.getToken());
 		queryParams.forEach(urlBuilder::addQueryParameter);
 		return getJsonWithUrlBuilder(urlBuilder);

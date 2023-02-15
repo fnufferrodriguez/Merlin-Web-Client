@@ -12,11 +12,11 @@ import java.time.Instant;
 
 public interface Access
 {
-	String getJsonMeasurementsByTemplateId(String rootUrl, TokenContainer container, Integer templateId) throws HttpAccessException;
+	String getJsonMeasurementsByTemplateId(ApiConnectionInfo connectionInfo, TokenContainer container, Integer templateId) throws HttpAccessException;
 
-	String getJsonTemplates(String rootUrl, TokenContainer container) throws HttpAccessException;
+	String getJsonTemplates(ApiConnectionInfo connectionInfo, TokenContainer container) throws HttpAccessException;
 
-	String getJsonEventsBySeries(String rootUrl, TokenContainer container, String seriesString, Integer qualityVersionID, Instant start, Instant end) throws HttpAccessException;
+	String getJsonEventsBySeries(ApiConnectionInfo connectionInfo, TokenContainer container, String seriesString, Integer qualityVersionID, Instant start, Instant end) throws HttpAccessException;
 
-	String getJsonQualityVersions(String rootUrl, TokenContainer container) throws HttpAccessException;
+	String getJsonQualityVersions(ApiConnectionInfo connectionInfo, TokenContainer container) throws HttpAccessException;
 }

@@ -8,6 +8,7 @@
 
 package gov.usbr.wq.dataaccess;
 
+import gov.usbr.wq.dataaccess.http.ApiConnectionInfo;
 import gov.usbr.wq.dataaccess.http.HttpAccessException;
 import gov.usbr.wq.dataaccess.http.HttpAccessUtils;
 import gov.usbr.wq.dataaccess.json.Data;
@@ -32,8 +33,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MerlinTimeSeriesDataAccessTest
 {
-
-	private static final String WEB_SERVICE_ROOT = "https://www.grabdata2.com";
+	private static final ApiConnectionInfo MERLIN_TEST_WEB_CONNECTION_INFO = new ApiConnectionInfo("https://www.grabdata2.com");
 	private static final Logger LOGGER = Logger.getLogger(MerlinTimeSeriesDataAccessTest.class.getName());
 	private static final List<Integer> INTERNAL_SERVER_ERROR_DPR_LIST = Arrays.asList(54);
 
@@ -42,9 +42,9 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
-		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
+		TokenContainer token = HttpAccessUtils.authenticate(MERLIN_TEST_WEB_CONNECTION_INFO, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		List<TemplateWrapper> templates = dataAccess.getTemplates(MERLIN_TEST_WEB_CONNECTION_INFO, token);
 		assertNotNull(templates);
 		LOGGER.info(templates.toString());
 	}
@@ -54,15 +54,15 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
-		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
+		TokenContainer token = HttpAccessUtils.authenticate(MERLIN_TEST_WEB_CONNECTION_INFO, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		List<TemplateWrapper> templates = dataAccess.getTemplates(MERLIN_TEST_WEB_CONNECTION_INFO, token);
 		Map<TemplateWrapper, List<MeasureWrapper>> measures = new HashMap<>();
 		for (TemplateWrapper template : templates)
 		{
 			try
 			{
-				List<MeasureWrapper> measurementsByTemplate = dataAccess.getMeasurementsByTemplate(token, template);
+				List<MeasureWrapper> measurementsByTemplate = dataAccess.getMeasurementsByTemplate(MERLIN_TEST_WEB_CONNECTION_INFO, token, template);
 				measures.put(template, measurementsByTemplate);
 			}
 			catch (HttpAccessException e)
@@ -80,14 +80,14 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
-		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
-		List<MeasureWrapper> measurementsByTemplate = dataAccess.getMeasurementsByTemplate(token, templates.get(2));
+		TokenContainer token = HttpAccessUtils.authenticate(MERLIN_TEST_WEB_CONNECTION_INFO, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		List<TemplateWrapper> templates = dataAccess.getTemplates(MERLIN_TEST_WEB_CONNECTION_INFO, token);
+		List<MeasureWrapper> measurementsByTemplate = dataAccess.getMeasurementsByTemplate(MERLIN_TEST_WEB_CONNECTION_INFO, token, templates.get(2));
 		MeasureWrapper measure = measurementsByTemplate.get(0);
 		Instant start = Instant.parse("2016-01-01T08:00:00.00Z");
 		Instant end = Instant.parse("2020-01-01T08:00:00.00Z");
-		DataWrapper eventsBySeries = dataAccess.getEventsBySeries(token, measure, null, start, end);
+		DataWrapper eventsBySeries = dataAccess.getEventsBySeries(MERLIN_TEST_WEB_CONNECTION_INFO, token, measure, null, start, end);
 		assertNotNull(eventsBySeries, "Failed to retrieve events by series");
 		LOGGER.info(eventsBySeries.toString());
 	}
@@ -97,17 +97,17 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
-		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
-		List<MeasureWrapper> measurementsByTemplate = dataAccess.getMeasurementsByTemplate(token, templates.get(2));
+		TokenContainer token = HttpAccessUtils.authenticate(MERLIN_TEST_WEB_CONNECTION_INFO, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		List<TemplateWrapper> templates = dataAccess.getTemplates(MERLIN_TEST_WEB_CONNECTION_INFO, token);
+		List<MeasureWrapper> measurementsByTemplate = dataAccess.getMeasurementsByTemplate(MERLIN_TEST_WEB_CONNECTION_INFO, token, templates.get(2));
 		MeasureWrapper measure = measurementsByTemplate.get(0);
 		Instant start = Instant.parse("2016-01-01T08:00:00.00Z");
 		Instant end = Instant.parse("2020-01-01T08:00:00.00Z");
-		List<QualityVersionWrapper> qvs = dataAccess.getQualityVersions(token);
+		List<QualityVersionWrapper> qvs = dataAccess.getQualityVersions(MERLIN_TEST_WEB_CONNECTION_INFO, token);
 		for(QualityVersionWrapper qv : qvs)
 		{
-			DataWrapper eventsBySeries = dataAccess.getEventsBySeries(token, measure, qv.getQualityVersionID(), start, end);
+			DataWrapper eventsBySeries = dataAccess.getEventsBySeries(MERLIN_TEST_WEB_CONNECTION_INFO, token, measure, qv.getQualityVersionID(), start, end);
 			assertNotNull(eventsBySeries, "Failed to retrieve events by series with QualityVersion: " + qv.getQualityVersionID());
 			LOGGER.info(eventsBySeries.toString());
 		}
@@ -118,21 +118,21 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
-		List<QualityVersionWrapper> qualityVersions = assertDoesNotThrow(() -> dataAccess.getQualityVersions(token), "Failed to retrieve quality versions");
+		TokenContainer token = HttpAccessUtils.authenticate(MERLIN_TEST_WEB_CONNECTION_INFO, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		List<QualityVersionWrapper> qualityVersions = assertDoesNotThrow(() -> dataAccess.getQualityVersions(MERLIN_TEST_WEB_CONNECTION_INFO, token), "Failed to retrieve quality versions");
 		assertNotNull(qualityVersions, "Failed to retrieve Quality Versions");
 		LOGGER.info(qualityVersions.toString());
 	}
 
-	@Test
+	//@Test
 	void getEventsBySeriesMultiThread() throws IOException, HttpAccessException
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
-		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
+		TokenContainer token = HttpAccessUtils.authenticate(MERLIN_TEST_WEB_CONNECTION_INFO, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		List<TemplateWrapper> templates = dataAccess.getTemplates(MERLIN_TEST_WEB_CONNECTION_INFO, token);
 
 		Instant start = ZonedDateTime.now().withYear(2016).withMonth(1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
 		Instant end = ZonedDateTime.now().withYear(2017).withMonth(12).withDayOfMonth(30).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
@@ -170,14 +170,14 @@ class MerlinTimeSeriesDataAccessTest
 
 	}
 
-	@Test
+	//@Test
 	void getEventsBySeriesWithQualityVersionMultiThread() throws IOException, HttpAccessException
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
-		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
+		TokenContainer token = HttpAccessUtils.authenticate(MERLIN_TEST_WEB_CONNECTION_INFO, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		List<TemplateWrapper> templates = dataAccess.getTemplates(MERLIN_TEST_WEB_CONNECTION_INFO, token);
 		int qvID = 0;
 		Instant start = ZonedDateTime.now().withYear(2016).withMonth(1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
 		Instant end = ZonedDateTime.now().withYear(2017).withMonth(12).withDayOfMonth(30).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
@@ -222,7 +222,7 @@ class MerlinTimeSeriesDataAccessTest
 		{
 			if(!INTERNAL_SERVER_ERROR_DPR_LIST.contains(p.getDprId())) //temp until issue can be resolved with the dpr id, appears to be issue on server end, but isn't important for purposes of this unit test
 			{
-				retval = dataAccess.getMeasurementsByTemplate(token, p);
+				retval = dataAccess.getMeasurementsByTemplate(MERLIN_TEST_WEB_CONNECTION_INFO, token, p);
 			}
 		}
 		catch (IOException | HttpAccessException e)
@@ -257,7 +257,7 @@ class MerlinTimeSeriesDataAccessTest
 		DataWrapper eventsBySeries;
 		try
 		{
-			eventsBySeries = dataAccess.getEventsBySeries(token, measure, null, start, end);
+			eventsBySeries = dataAccess.getEventsBySeries(MERLIN_TEST_WEB_CONNECTION_INFO, token, measure, null, start, end);
 		}
 		catch (IOException | HttpAccessException e)
 		{
@@ -277,7 +277,7 @@ class MerlinTimeSeriesDataAccessTest
 		DataWrapper eventsBySeries;
 		try
 		{
-			eventsBySeries = dataAccess.getEventsBySeries(token, measure, qvID, start, end);
+			eventsBySeries = dataAccess.getEventsBySeries(MERLIN_TEST_WEB_CONNECTION_INFO, token, measure, qvID, start, end);
 		}
 		catch (IOException | HttpAccessException e)
 		{

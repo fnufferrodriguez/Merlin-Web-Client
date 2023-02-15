@@ -22,25 +22,25 @@ public class TestAccess implements Access
 	}
 
 	@Override
-	public String getJsonMeasurementsByTemplateId(String rootUrl, TokenContainer token, Integer templateId)
+	public String getJsonMeasurementsByTemplateId(ApiConnectionInfo connectionInfo, TokenContainer token, Integer templateId)
 	{
 		return null;
 	}
 
 	@Override
-	public String getJsonTemplates(String rootUrl, TokenContainer token)
+	public String getJsonTemplates(ApiConnectionInfo connectionInfo, TokenContainer token)
 	{
 		return null;
 	}
 
 	@Override
-	public String getJsonEventsBySeries(String rootUrl, TokenContainer token, String seriesString, Integer qvID, Instant start, Instant end)
+	public String getJsonEventsBySeries(ApiConnectionInfo connectionInfo, TokenContainer token, String seriesString, Integer qvID, Instant start, Instant end)
 	{
 		return null;
 	}
 
 	@Override
-	public String getJsonQualityVersions(String rootUrl, TokenContainer container) throws HttpAccessException {
+	public String getJsonQualityVersions(ApiConnectionInfo connectionInfo, TokenContainer container) throws HttpAccessException {
 		return null;
 	}
 }
