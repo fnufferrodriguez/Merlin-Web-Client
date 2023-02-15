@@ -9,7 +9,6 @@
 package gov.usbr.wq.dataaccess.http;
 
 import gov.usbr.wq.dataaccess.ResourceAccess;
-import gov.usbr.wq.dataaccess.jwt.TokenContainer;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

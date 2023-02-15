@@ -13,7 +13,7 @@ import gov.usbr.wq.dataaccess.http.HttpAccessException;
 import gov.usbr.wq.dataaccess.http.HttpAccessUtils;
 import gov.usbr.wq.dataaccess.json.QualityVersions;
 import gov.usbr.wq.dataaccess.json.Template;
-import gov.usbr.wq.dataaccess.jwt.TokenContainer;
+import gov.usbr.wq.dataaccess.http.TokenContainer;
 import gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper;
 import gov.usbr.wq.dataaccess.json.Data;
 import gov.usbr.wq.dataaccess.json.Measure;

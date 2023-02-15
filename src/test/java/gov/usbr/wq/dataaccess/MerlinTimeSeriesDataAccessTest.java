@@ -11,7 +11,7 @@ package gov.usbr.wq.dataaccess;
 import gov.usbr.wq.dataaccess.http.HttpAccessException;
 import gov.usbr.wq.dataaccess.http.HttpAccessUtils;
 import gov.usbr.wq.dataaccess.json.Data;
-import gov.usbr.wq.dataaccess.jwt.TokenContainer;
+import gov.usbr.wq.dataaccess.http.TokenContainer;
 import gov.usbr.wq.dataaccess.model.DataWrapper;
 import gov.usbr.wq.dataaccess.model.MeasureWrapper;
 import gov.usbr.wq.dataaccess.model.QualityVersionWrapper;

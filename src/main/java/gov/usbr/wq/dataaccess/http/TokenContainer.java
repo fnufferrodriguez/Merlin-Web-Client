@@ -6,7 +6,7 @@
  * from USBR.
  */
 
-package gov.usbr.wq.dataaccess.jwt;
+package gov.usbr.wq.dataaccess.http;
 
 public interface TokenContainer
 {

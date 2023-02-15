@@ -6,7 +6,9 @@
  * from USBR.
  */
 
-package gov.usbr.wq.dataaccess.jwt;
+package gov.usbr.wq.dataaccess.http;
+
+import gov.usbr.wq.dataaccess.http.TokenContainer;
 
 /**
  * Created by Ryan Miles

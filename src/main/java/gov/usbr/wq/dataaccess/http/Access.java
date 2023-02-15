@@ -8,8 +8,6 @@
 
 package gov.usbr.wq.dataaccess.http;
 
-import gov.usbr.wq.dataaccess.jwt.TokenContainer;
-
 import java.time.Instant;
 
 public interface Access

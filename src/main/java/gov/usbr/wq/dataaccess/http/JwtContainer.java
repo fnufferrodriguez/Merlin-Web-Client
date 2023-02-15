@@ -10,8 +10,6 @@ package gov.usbr.wq.dataaccess.http;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import gov.usbr.wq.dataaccess.jwt.TokenContainer;
-import gov.usbr.wq.dataaccess.jwt.TokenValidator;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
