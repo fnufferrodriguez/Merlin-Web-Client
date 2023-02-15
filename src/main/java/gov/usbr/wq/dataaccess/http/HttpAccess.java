@@ -21,23 +21,23 @@ final class HttpAccess implements Access
 	}
 
 	@Override
-	public String getJsonMeasurementsByTemplateId(TokenContainer token, Integer templateId) throws HttpAccessException
+	public String getJsonMeasurementsByTemplateId(String rootUrl, TokenContainer token, Integer templateId) throws HttpAccessException
 	{
 		String api = "/MerlinWebService/GetMeasurementsByTemplate";
 		Map<String, String> queryParams = new HashMap<>();
 		queryParams.put("templateID", String.valueOf(templateId));
-		return HttpAccessUtils.getJsonWithToken(token, api, queryParams);
+		return HttpAccessUtils.getJsonWithToken(rootUrl, token, api, queryParams);
 	}
 
 	@Override
-	public String getJsonTemplates(TokenContainer token) throws HttpAccessException
+	public String getJsonTemplates(String rootUrl, TokenContainer token) throws HttpAccessException
 	{
 		String api = "/MerlinWebService/GetTemplates";
-		return HttpAccessUtils.getJsonWithToken(token, api);
+		return HttpAccessUtils.getJsonWithToken(rootUrl, token, api);
 	}
 
 	@Override
-	public String getJsonEventsBySeries(TokenContainer token, String seriesString, Integer qualityVersionID, Instant start, Instant end) throws HttpAccessException
+	public String getJsonEventsBySeries(String rootUrl, TokenContainer token, String seriesString, Integer qualityVersionID, Instant start, Instant end) throws HttpAccessException
 	{
 		String api = "/MerlinWebService/GetEventsBySeriesString";
 		Map<String, String> queryParams = new HashMap<>();
@@ -54,13 +54,13 @@ final class HttpAccess implements Access
 		{
 			queryParams.put("qvID", qualityVersionID.toString());
 		}
-		return HttpAccessUtils.getJsonWithToken(token, api, queryParams);
+		return HttpAccessUtils.getJsonWithToken(rootUrl, token, api, queryParams);
 	}
 
 	@Override
-	public String getJsonQualityVersions(TokenContainer token) throws HttpAccessException
+	public String getJsonQualityVersions(String rootUrl, TokenContainer token) throws HttpAccessException
 	{
 		String api = "/MerlinWebService/GetQualityVersions";
-		return HttpAccessUtils.getJsonWithToken(token, api);
+		return HttpAccessUtils.getJsonWithToken(rootUrl, token, api);
 	}
 }

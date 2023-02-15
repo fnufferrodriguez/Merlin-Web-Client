@@ -35,7 +35,6 @@ import java.util.logging.Logger;
 public class HttpAccessUtils
 {
 	private static final Logger LOGGER = Logger.getLogger(HttpAccessUtils.class.getName());
-	static final String WEB_SERVICE_ROOT = "https://www.grabdata2.com";
 	static final String MERLIN_WEB_SERVICE_API_ACCOUNT_GENERATE_TOKEN = "/MerlinWebService/api/Account/GenerateToken";
 	static final String USERNAME_QUERY_PARAM = "username";
 	static final String PASSWORD_QUERY_PARAM = "password";
@@ -58,9 +57,9 @@ public class HttpAccessUtils
 			.readTimeout(getReadTimeout())
 			.build();
 
-	public static TokenContainer authenticate(String user, char[] pass) throws HttpAccessException
+	public static TokenContainer authenticate(String rootUrl, String user, char[] pass) throws HttpAccessException
 	{
-		String apiUrl = WEB_SERVICE_ROOT + MERLIN_WEB_SERVICE_API_ACCOUNT_GENERATE_TOKEN;
+		String apiUrl = rootUrl + MERLIN_WEB_SERVICE_API_ACCOUNT_GENERATE_TOKEN;
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(apiUrl).newBuilder();
 		//params in url
 		//hopefully this can be updated in future to not have password as a parameter
@@ -95,9 +94,9 @@ public class HttpAccessUtils
 		return getRequestBodyString(request);
 	}
 
-	static String getJsonWithToken(TokenContainer token, String api) throws HttpAccessException
+	static String getJsonWithToken(String rootUrl, TokenContainer token, String api) throws HttpAccessException
 	{
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(WEB_SERVICE_ROOT + api).newBuilder();
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(rootUrl + api).newBuilder();
 		urlBuilder.addQueryParameter("token", token.getToken());
 		return getJsonWithUrlBuilder(urlBuilder);
 	}
@@ -185,9 +184,9 @@ public class HttpAccessUtils
 		return retval;
 	}
 
-	static String getJsonWithToken(TokenContainer token, String api, Map<String, String> queryParams) throws HttpAccessException
+	static String getJsonWithToken(String rootUrl, TokenContainer token, String api, Map<String, String> queryParams) throws HttpAccessException
 	{
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(WEB_SERVICE_ROOT + api).newBuilder();
+		HttpUrl.Builder urlBuilder = HttpUrl.parse(rootUrl + api).newBuilder();
 		urlBuilder.addQueryParameter("token", token.getToken());
 		queryParams.forEach(urlBuilder::addQueryParameter);
 		return getJsonWithUrlBuilder(urlBuilder);

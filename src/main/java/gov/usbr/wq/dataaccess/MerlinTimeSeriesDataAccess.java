@@ -30,10 +30,17 @@ import static java.util.stream.Collectors.toList;
 
 public final class MerlinTimeSeriesDataAccess
 {
+
+	private final String _rootUrl;
+
+	public MerlinTimeSeriesDataAccess(String rootUrl)
+	{
+		_rootUrl = rootUrl;
+	}
 	public List<TemplateWrapper> getTemplates(TokenContainer token) throws IOException, HttpAccessException
 	{
 		Access httpAccess = HttpAccessUtils.buildHttpAccess();
-		String json = httpAccess.getJsonTemplates(token);
+		String json = httpAccess.getJsonTemplates(_rootUrl, token);
 		return MerlinObjectMapper.mapJsonToListOfObjectsUsingClass(json, Template.class).stream()
 								 .map(TemplateWrapper::new)
 								 .collect(toList());
@@ -42,7 +49,7 @@ public final class MerlinTimeSeriesDataAccess
 	public List<MeasureWrapper> getMeasurementsByTemplate(TokenContainer token, TemplateWrapper template) throws IOException, HttpAccessException
 	{
 		Access httpAccess = HttpAccessUtils.buildHttpAccess();
-		String json = httpAccess.getJsonMeasurementsByTemplateId(token, template.getDprId());
+		String json = httpAccess.getJsonMeasurementsByTemplateId(_rootUrl, token, template.getDprId());
 		return MerlinObjectMapper.mapJsonToListOfObjectsUsingClass(json, Measure.class).stream()
 								 .map(MeasureWrapper::new)
 								 .collect(toList());
@@ -51,14 +58,14 @@ public final class MerlinTimeSeriesDataAccess
 	public DataWrapper getEventsBySeries(TokenContainer token, MeasureWrapper measure, Integer qualityVersionID, Instant start, Instant end) throws IOException, HttpAccessException
 	{
 		Access httpAccess = HttpAccessUtils.buildHttpAccess();
-		String json = httpAccess.getJsonEventsBySeries(token, measure.getSeriesString(), qualityVersionID, start, end);
+		String json = httpAccess.getJsonEventsBySeries(_rootUrl, token, measure.getSeriesString(), qualityVersionID, start, end);
 		return new DataWrapper(MerlinObjectMapper.mapJsonToObjectUsingClass(json,Data.class));
 	}
 
 	public List<QualityVersionWrapper> getQualityVersions(TokenContainer token) throws HttpAccessException, IOException
 	{
 		Access httpAccess = HttpAccessUtils.buildHttpAccess();
-		String json = httpAccess.getJsonQualityVersions(token);
+		String json = httpAccess.getJsonQualityVersions(_rootUrl, token);
 		return MerlinObjectMapper.mapJsonToListOfObjectsUsingClass(json, QualityVersions.class).stream()
 				.map(QualityVersionWrapper::new)
 				.collect(toList());

@@ -37,8 +37,8 @@ class DownloadJson
 	public static void main(String[] args) throws Exception
 	{
 		HttpAccess access = new HttpAccess();
-		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
-		String templates = access.getJsonTemplates(token);
+		TokenContainer token = HttpAccessUtils.authenticate(HttpAccessTest.WEB_SERVICE_ROOT, ResourceAccess.getUsername(), ResourceAccess.getPassword());
+		String templates = access.getJsonTemplates(HttpAccessTest.WEB_SERVICE_ROOT, token);
 		Path templatesFile = TEMPLATE_JSON_PATH;
 		Files.deleteIfExists(templatesFile);
 		Files.write(templatesFile, Collections.singleton(templates), StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW);
@@ -53,7 +53,7 @@ class DownloadJson
 		String measurementsJson;
 		try
 		{
-			measurementsJson = access.getJsonMeasurementsByTemplateId(token, template.getDprID());
+			measurementsJson = access.getJsonMeasurementsByTemplateId(HttpAccessTest.WEB_SERVICE_ROOT, token, template.getDprID());
 			Path measurementPath = MEASUREMENTS_JSON_PATH.resolve(template.getDprName() + ".json");
 			if (!Files.exists(measurementPath))
 			{
@@ -84,7 +84,7 @@ class DownloadJson
 	{
 		try
 		{
-			String eventsJson = access.getJsonEventsBySeries(token, measure.getSeriesString(), null, null, null);
+			String eventsJson = access.getJsonEventsBySeries(HttpAccessTest.WEB_SERVICE_ROOT, token, measure.getSeriesString(), null, null, null);
 			Path eventPath = EVENTS_JSON_PATH.resolve(template.getDprName());
 			if (!Files.exists(eventPath))
 			{

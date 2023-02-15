@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 class HttpAccessTest
 {
+	static final String WEB_SERVICE_ROOT = "https://www.grabdata2.com";
 	private static final int SHASTA_PROFILE_ID = 35;  //This is associated with Shasta Lake - Modeling Flow and Elev
 	private static final String SHASTA_SERIES_ID = "Shasta Lake-Pit R. Branch-Montgomery Creek Flow/Flow/INST-VAL/1440/0/35-230.6.125.1.1";
 
@@ -26,8 +27,8 @@ class HttpAccessTest
 	void testGetJsonProfiles() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
-		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
-		String jsonProfiles = access.getJsonTemplates(token);
+		TokenContainer token = HttpAccessUtils.authenticate(HttpAccessTest.WEB_SERVICE_ROOT, ResourceAccess.getUsername(), ResourceAccess.getPassword());
+		String jsonProfiles = access.getJsonTemplates(HttpAccessTest.WEB_SERVICE_ROOT, token);
 		//No exceptions should be thrown, the token should be valid
 		assertNotNull(jsonProfiles);
 	}
@@ -36,8 +37,8 @@ class HttpAccessTest
 	void testGetJsonMeasurements() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
-		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
-		String measurements = access.getJsonMeasurementsByTemplateId(token, SHASTA_PROFILE_ID);
+		TokenContainer token = HttpAccessUtils.authenticate(HttpAccessTest.WEB_SERVICE_ROOT, ResourceAccess.getUsername(), ResourceAccess.getPassword());
+		String measurements = access.getJsonMeasurementsByTemplateId(HttpAccessTest.WEB_SERVICE_ROOT, token, SHASTA_PROFILE_ID);
 		//No exceptions should be thrown, the token should be valid
 		assertNotNull(measurements);
 	}
@@ -46,16 +47,16 @@ class HttpAccessTest
 	void testGetJsonMeasurements_noData() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
-		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
-		assertThrowsExactly(HttpAccessException.class, () -> access.getJsonMeasurementsByTemplateId(token, null));
+		TokenContainer token = HttpAccessUtils.authenticate(HttpAccessTest.WEB_SERVICE_ROOT, ResourceAccess.getUsername(), ResourceAccess.getPassword());
+		assertThrowsExactly(HttpAccessException.class, () -> access.getJsonMeasurementsByTemplateId(HttpAccessTest.WEB_SERVICE_ROOT, token, null));
 	}
 
 	@Test
 	void testGetJsonEvents_NoStartEnd() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
-		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
-		String measurements = access.getJsonEventsBySeries(token, SHASTA_SERIES_ID, null, null, null);
+		TokenContainer token = HttpAccessUtils.authenticate(HttpAccessTest.WEB_SERVICE_ROOT, ResourceAccess.getUsername(), ResourceAccess.getPassword());
+		String measurements = access.getJsonEventsBySeries(HttpAccessTest.WEB_SERVICE_ROOT, token, SHASTA_SERIES_ID, null, null, null);
 		//No exceptions should be thrown, the token should be valid
 		assertNotNull(measurements);
 	}
@@ -64,11 +65,11 @@ class HttpAccessTest
 	void testGetJsonEvents_StartNoEnd() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
-		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
+		TokenContainer token = HttpAccessUtils.authenticate(HttpAccessTest.WEB_SERVICE_ROOT, ResourceAccess.getUsername(), ResourceAccess.getPassword());
 		Instant start = Instant.now()
 							   .minus(7, ChronoUnit.DAYS);
 		Instant end = null;
-		String measurements = access.getJsonEventsBySeries(token, SHASTA_SERIES_ID, null, start, end);
+		String measurements = access.getJsonEventsBySeries(HttpAccessTest.WEB_SERVICE_ROOT, token, SHASTA_SERIES_ID, null, start, end);
 		//No exceptions should be thrown, the token should be valid
 		assertNotNull(measurements);
 	}
@@ -77,10 +78,10 @@ class HttpAccessTest
 	void testGetJsonEvents_EndNoStart() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
-		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
+		TokenContainer token = HttpAccessUtils.authenticate(HttpAccessTest.WEB_SERVICE_ROOT, ResourceAccess.getUsername(), ResourceAccess.getPassword());
 		Instant start = null;
 		Instant end = Instant.now();
-		String measurements = access.getJsonEventsBySeries(token, SHASTA_SERIES_ID, null, start, end);
+		String measurements = access.getJsonEventsBySeries(HttpAccessTest.WEB_SERVICE_ROOT, token, SHASTA_SERIES_ID, null, start, end);
 		//No exceptions should be thrown, the token should be valid
 		assertNotNull(measurements);
 	}
@@ -89,11 +90,11 @@ class HttpAccessTest
 	void testGetJsonEvents_StartEnd() throws HttpAccessException
 	{
 		HttpAccess access = new HttpAccess();
-		TokenContainer token = HttpAccessUtils.authenticate(ResourceAccess.getUsername(), ResourceAccess.getPassword());
+		TokenContainer token = HttpAccessUtils.authenticate(HttpAccessTest.WEB_SERVICE_ROOT, ResourceAccess.getUsername(), ResourceAccess.getPassword());
 		Instant start = Instant.now()
 							   .minus(7, ChronoUnit.DAYS);
 		Instant end = Instant.now();
-		String measurements = access.getJsonEventsBySeries(token, SHASTA_SERIES_ID, null, start, end);
+		String measurements = access.getJsonEventsBySeries(HttpAccessTest.WEB_SERVICE_ROOT, token, SHASTA_SERIES_ID, null, start, end);
 		//No exceptions should be thrown, the token should be valid
 		assertNotNull(measurements);
 	}

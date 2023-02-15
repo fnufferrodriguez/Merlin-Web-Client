@@ -32,6 +32,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MerlinTimeSeriesDataAccessTest
 {
+
+	private static final String WEB_SERVICE_ROOT = "https://www.grabdata2.com";
 	private static final Logger LOGGER = Logger.getLogger(MerlinTimeSeriesDataAccessTest.class.getName());
 	private static final List<Integer> INTERNAL_SERVER_ERROR_DPR_LIST = Arrays.asList(54);
 
@@ -40,8 +42,8 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
 		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
 		assertNotNull(templates);
 		LOGGER.info(templates.toString());
@@ -52,8 +54,8 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
 		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
 		Map<TemplateWrapper, List<MeasureWrapper>> measures = new HashMap<>();
 		for (TemplateWrapper template : templates)
@@ -78,8 +80,8 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
 		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
 		List<MeasureWrapper> measurementsByTemplate = dataAccess.getMeasurementsByTemplate(token, templates.get(2));
 		MeasureWrapper measure = measurementsByTemplate.get(0);
@@ -95,8 +97,8 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
 		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
 		List<MeasureWrapper> measurementsByTemplate = dataAccess.getMeasurementsByTemplate(token, templates.get(2));
 		MeasureWrapper measure = measurementsByTemplate.get(0);
@@ -116,8 +118,8 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
 		List<QualityVersionWrapper> qualityVersions = assertDoesNotThrow(() -> dataAccess.getQualityVersions(token), "Failed to retrieve quality versions");
 		assertNotNull(qualityVersions, "Failed to retrieve Quality Versions");
 		LOGGER.info(qualityVersions.toString());
@@ -128,8 +130,8 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
 		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
 
 		Instant start = ZonedDateTime.now().withYear(2016).withMonth(1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();
@@ -173,8 +175,8 @@ class MerlinTimeSeriesDataAccessTest
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(username, password);
-		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess();
+		TokenContainer token = HttpAccessUtils.authenticate(WEB_SERVICE_ROOT, username, password);
+		MerlinTimeSeriesDataAccess dataAccess = new MerlinTimeSeriesDataAccess(WEB_SERVICE_ROOT);
 		List<TemplateWrapper> templates = dataAccess.getTemplates(token);
 		int qvID = 0;
 		Instant start = ZonedDateTime.now().withYear(2016).withMonth(1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0).toInstant();

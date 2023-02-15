@@ -20,7 +20,7 @@ class HttpAccessUtilsTest
 	{
 		char[] password = ResourceAccess.getPassword();
 		String username = ResourceAccess.getUsername();
-		TokenContainer token = HttpAccessUtils.authenticate(username, password);
+		TokenContainer token = HttpAccessUtils.authenticate(HttpAccessTest.WEB_SERVICE_ROOT, username, password);
 		assertTrue(token instanceof JwtContainer);
 		assertTrue(token.isValid());
 		assertNotNull(token.getToken());
