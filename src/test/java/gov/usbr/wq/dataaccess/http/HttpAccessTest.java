@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 class HttpAccessTest
 {
-	static final ApiConnectionInfo WEB_SERVICE_ROOT = new ApiConnectionInfo("https://www.grabdata2.com/MerlinWebService");
+	static final ApiConnectionInfo WEB_SERVICE_ROOT = new ApiConnectionInfo("https://www.grabdata2.com");
 	private static final int SHASTA_PROFILE_ID = 35;  //This is associated with Shasta Lake - Modeling Flow and Elev
 	private static final String SHASTA_SERIES_ID = "Shasta Lake-Pit R. Branch-Montgomery Creek Flow/Flow/INST-VAL/1440/0/35-230.6.125.1.1";
 

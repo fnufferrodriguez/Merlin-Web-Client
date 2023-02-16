@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MerlinTimeSeriesDataAccessTest
 {
-	private static final ApiConnectionInfo MERLIN_TEST_WEB_CONNECTION_INFO = new ApiConnectionInfo("https://www.grabdata2.com/MerlinWebService");
+	private static final ApiConnectionInfo MERLIN_TEST_WEB_CONNECTION_INFO = new ApiConnectionInfo("https://www.grabdata2.com");
 	private static final Logger LOGGER = Logger.getLogger(MerlinTimeSeriesDataAccessTest.class.getName());
 	private static final List<Integer> INTERNAL_SERVER_ERROR_DPR_LIST = Arrays.asList(54);
 

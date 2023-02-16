@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 public class HttpAccessUtils
 {
 	private static final Logger LOGGER = Logger.getLogger(HttpAccessUtils.class.getName());
-	static final String MERLIN_WEB_SERVICE_API_ACCOUNT_GENERATE_TOKEN = "/api/Account/GenerateToken";
+	static final String MERLIN_WEB_SERVICE_API_ACCOUNT_GENERATE_TOKEN = "/MerlinWebService/api/Account/GenerateToken";
 	static final String USERNAME_QUERY_PARAM = "username";
 	static final String PASSWORD_QUERY_PARAM = "password";
 
