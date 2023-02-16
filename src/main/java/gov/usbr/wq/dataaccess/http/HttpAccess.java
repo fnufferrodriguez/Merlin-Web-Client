@@ -23,7 +23,7 @@ final class HttpAccess implements Access
 	@Override
 	public String getJsonMeasurementsByTemplateId(ApiConnectionInfo connectionInfo, TokenContainer token, Integer templateId) throws HttpAccessException
 	{
-		String api = "/MerlinWebService/GetMeasurementsByTemplate";
+		String api = "/GetMeasurementsByTemplate";
 		Map<String, String> queryParams = new HashMap<>();
 		queryParams.put("templateID", String.valueOf(templateId));
 		return HttpAccessUtils.getJsonWithToken(connectionInfo, token, api, queryParams);
@@ -32,14 +32,14 @@ final class HttpAccess implements Access
 	@Override
 	public String getJsonTemplates(ApiConnectionInfo connectionInfo, TokenContainer token) throws HttpAccessException
 	{
-		String api = "/MerlinWebService/GetTemplates";
+		String api = "/GetTemplates";
 		return HttpAccessUtils.getJsonWithToken(connectionInfo, token, api);
 	}
 
 	@Override
 	public String getJsonEventsBySeries(ApiConnectionInfo connectionInfo, TokenContainer token, String seriesString, Integer qualityVersionID, Instant start, Instant end) throws HttpAccessException
 	{
-		String api = "/MerlinWebService/GetEventsBySeriesString";
+		String api = "/GetEventsBySeriesString";
 		Map<String, String> queryParams = new HashMap<>();
 		queryParams.put("seriesString", seriesString);
 		if (start != null)
@@ -60,7 +60,7 @@ final class HttpAccess implements Access
 	@Override
 	public String getJsonQualityVersions(ApiConnectionInfo connectionInfo, TokenContainer token) throws HttpAccessException
 	{
-		String api = "/MerlinWebService/GetQualityVersions";
+		String api = "/GetQualityVersions";
 		return HttpAccessUtils.getJsonWithToken(connectionInfo, token, api);
 	}
 }
