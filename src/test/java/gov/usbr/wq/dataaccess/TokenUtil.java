@@ -1,8 +1,9 @@
 package gov.usbr.wq.dataaccess;
 
+import gov.usbr.wq.dataaccess.http.ApiConnectionInfo;
 import gov.usbr.wq.dataaccess.http.HttpAccessException;
 import gov.usbr.wq.dataaccess.http.HttpAccessUtils;
-import gov.usbr.wq.dataaccess.jwt.TokenContainer;
+import gov.usbr.wq.dataaccess.http.TokenContainer;
 
 public class TokenUtil
 {
@@ -15,7 +16,8 @@ public class TokenUtil
 	{
 		String username = ResourceAccess.getUsername();
 		char[] password = ResourceAccess.getPassword();
-		TokenContainer token = HttpAccessUtils.authenticate(username, password);
+		ApiConnectionInfo connectionInfo = new ApiConnectionInfo("https://www.grabdata2.com");
+		TokenContainer token = HttpAccessUtils.authenticate(connectionInfo, username, password);
 		return token;
 	}
 }

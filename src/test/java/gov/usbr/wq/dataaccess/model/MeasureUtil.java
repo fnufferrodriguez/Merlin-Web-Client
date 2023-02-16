@@ -23,9 +23,10 @@ import java.util.stream.Collectors;
 
 import gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccess;
 import gov.usbr.wq.dataaccess.TokenUtil;
+import gov.usbr.wq.dataaccess.http.ApiConnectionInfo;
 import gov.usbr.wq.dataaccess.http.HttpAccessException;
 import gov.usbr.wq.dataaccess.json.Measure;
-import gov.usbr.wq.dataaccess.jwt.TokenContainer;
+import gov.usbr.wq.dataaccess.http.TokenContainer;
 
 public class MeasureUtil
 {
@@ -124,7 +125,8 @@ public class MeasureUtil
 	{
 		try
 		{
-			DataWrapper dataWrapper = new MerlinTimeSeriesDataAccess().getEventsBySeries(token, measure, qualityVersionId, start, end);
+			ApiConnectionInfo connectionInfo = new ApiConnectionInfo("https://www.grabdata2.com");
+			DataWrapper dataWrapper = new MerlinTimeSeriesDataAccess().getEventsBySeries(connectionInfo, token, measure, qualityVersionId, start, end);
 			NavigableSet<EventWrapper> events = dataWrapper.getEvents();
 			if(!eventsFromStartVsEnd)
 			{

@@ -13,8 +13,9 @@ import java.util.logging.Logger;
 
 import gov.usbr.wq.dataaccess.MerlinTimeSeriesDataAccess;
 import gov.usbr.wq.dataaccess.TokenUtil;
+import gov.usbr.wq.dataaccess.http.ApiConnectionInfo;
 import gov.usbr.wq.dataaccess.http.HttpAccessException;
-import gov.usbr.wq.dataaccess.jwt.TokenContainer;
+import gov.usbr.wq.dataaccess.http.TokenContainer;
 
 public class TemplateUtil
 {
@@ -85,7 +86,8 @@ public class TemplateUtil
 	{
 		try
 		{
-			return new MerlinTimeSeriesDataAccess().getTemplates(token);
+			ApiConnectionInfo connectionInfo = new ApiConnectionInfo("https://www.grabdata2.com");
+			return new MerlinTimeSeriesDataAccess().getTemplates(connectionInfo, token);
 		}
 		catch(IOException e)
 		{
@@ -101,7 +103,8 @@ public class TemplateUtil
 	{
 		try
 		{
-			return new MerlinTimeSeriesDataAccess().getMeasurementsByTemplate(token, template);
+			ApiConnectionInfo connectionInfo = new ApiConnectionInfo("https://www.grabdata2.com");
+			return new MerlinTimeSeriesDataAccess().getMeasurementsByTemplate(connectionInfo, token, template);
 		}
 		catch(IOException e)
 		{
