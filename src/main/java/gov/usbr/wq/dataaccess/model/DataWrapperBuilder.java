@@ -38,6 +38,7 @@ public final class DataWrapperBuilder
                 .withProject(dataWrapper.getProject())
                 .withStation(dataWrapper.getStation())
                 .withSeriesString(dataWrapper.getSeriesId())
+                .withTimeZone(dataWrapper.getTimeZone().getId())
                 .withTimestep(dataWrapper.getTimestep());
     }
     public DataWrapperBuilder withProject(String project)
