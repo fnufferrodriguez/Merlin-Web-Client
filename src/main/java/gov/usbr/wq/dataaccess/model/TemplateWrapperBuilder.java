@@ -7,14 +7,16 @@ public final class TemplateWrapperBuilder
     private Integer _dprID;
     private String _dprName;
 
-    public void withDprID(Integer dprID)
+    public TemplateWrapperBuilder withDprID(Integer dprID)
     {
         _dprID = dprID;
+        return this;
     }
 
-    public void withDprName(String dprName)
+    public TemplateWrapperBuilder withDprName(String dprName)
     {
         _dprName = dprName;
+        return this;
     }
 
     public TemplateWrapper build()

@@ -11,34 +11,40 @@ public final class QualityVersionWrapperBuilder
     private Boolean _qualityVersionQueryHistory;
     private Integer _qualityVersionUI;
 
-    public void withQualityVersionID(Integer qvID)
+    public QualityVersionWrapperBuilder withQualityVersionID(Integer qvID)
     {
         _qualityVersionID = qvID;
+        return this;
     }
 
-    public void withQualityVersionName(String qvName)
+    public QualityVersionWrapperBuilder withQualityVersionName(String qvName)
     {
         _qualityVersionName = qvName;
+        return this;
     }
 
-    public void withQualityVersionDescription(String qvDescription)
+    public QualityVersionWrapperBuilder withQualityVersionDescription(String qvDescription)
     {
         _qualityVersionDescription = qvDescription;
+        return this;
     }
 
-    public void withQualityVersionActive(Boolean qvActive)
+    public QualityVersionWrapperBuilder withQualityVersionActive(Boolean qvActive)
     {
         _qualityVersionActive = qvActive;
+        return this;
     }
 
-    public void withQualityVersionQueryHistory(Boolean qvQueryHistory)
+    public QualityVersionWrapperBuilder withQualityVersionQueryHistory(Boolean qvQueryHistory)
     {
         _qualityVersionQueryHistory = qvQueryHistory;
+        return this;
     }
 
-    public void withQualityVersionUI(Integer qvUI)
+    public QualityVersionWrapperBuilder withQualityVersionUI(Integer qvUI)
     {
         _qualityVersionUI = qvUI;
+        return this;
     }
     
     public QualityVersionWrapper build()

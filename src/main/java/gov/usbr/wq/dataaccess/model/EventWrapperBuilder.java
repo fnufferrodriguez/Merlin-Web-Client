@@ -11,19 +11,22 @@ public final class EventWrapperBuilder
     private Double _value;
     private Integer _quality;
 
-    public void withDate(OffsetDateTime date)
+    public EventWrapperBuilder withDate(OffsetDateTime date)
     {
         _date = date;
+        return this;
     }
 
-    public void withValue(Double value)
+    public EventWrapperBuilder withValue(Double value)
     {
         _value = value;
+        return this;
     }
 
-    public void withQuality(Integer quality)
+    public EventWrapperBuilder withQuality(Integer quality)
     {
         _quality = quality;
+        return this;
     }
 
     public EventWrapper build()
