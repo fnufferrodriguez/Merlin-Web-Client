@@ -160,7 +160,7 @@ public class HttpAccessUtils
 				{
 					body = response.toString();
 				}
-				throw new HttpAccessException(response.code(), scheme + "://" + host + "/" + path, body);
+				throw new HttpAccessException(response.code(), scheme + "://" + host + "/" + path, response.message(), body);
 			}
 		}
 		catch (IOException ex)
