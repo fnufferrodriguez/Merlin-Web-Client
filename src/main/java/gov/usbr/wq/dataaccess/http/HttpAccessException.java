@@ -17,7 +17,7 @@ public class HttpAccessException extends Exception
 
 	public HttpAccessException(int code, String url, String responseMessage, String body)
 	{
-		super(constructMessage(code, url, body));
+		super(constructMessage(code, url, body, responseMessage));
 		_code = code;
 		_url = url;
 		_body = body;
@@ -33,9 +33,10 @@ public class HttpAccessException extends Exception
 		_responseMessage = null;
 	}
 
-	private static String constructMessage(int code, String url, String body)
+	private static String constructMessage(int code, String url, String body, String responseMessage)
 	{
-		return "URL:" + url + System.lineSeparator() + "Code: " + code + System.lineSeparator() + "Body: " + body;
+		return "URL:" + url + System.lineSeparator() + "Code: " + code + System.lineSeparator() + "Message: " + responseMessage
+			+ System.lineSeparator() + "Body: " + body;
 	}
 
 	public int getCode()
