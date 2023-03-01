@@ -54,7 +54,7 @@ public class TemplateUtil
 		TokenContainer token = TokenUtil.getToken();
 		List<TemplateWrapper> templateWrappers = retrieveTemplates(token);
 		final List<String> rows = new ArrayList<>();
-		rows.add("Template ID | Template | Measure | Parameter");
+		rows.add("Template ID|Template|Measure|Parameter");
 		List<Future> futures = new ArrayList<>();
 		for(TemplateWrapper template : templateWrappers)
 		{
@@ -128,7 +128,7 @@ public class TemplateUtil
 
 	private static String createCsvRow(TemplateWrapper template, MeasureWrapper measure, String parameter)
 	{
-		String row = template.getDprId() + " | " + template.getName() + " | " + measure.getSeriesString() + " | " + parameter;
+		String row = template.getDprId() + "|" + template.getName() + "|" + measure.getSeriesString() + "|" + parameter;
 		return row;
 	}
 
