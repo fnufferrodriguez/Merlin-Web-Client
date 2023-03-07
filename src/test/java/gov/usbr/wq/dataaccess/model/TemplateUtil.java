@@ -121,7 +121,9 @@ public class TemplateUtil
 
 	private static String createCsvRow(TemplateWrapper template, MeasureWrapper measure)
 	{
-		String row = template.getDprId() + "|" + template.getName() + "|" + measure.getSeriesString() + "|" + measure.getParameter()+ "|" + measure.getTimeStep()+ "|" + measure.isProcessed();
+		String row = template.getDprId() + "|" + template.getName() + "|" + measure.getSeriesString() + "|"
+				+ measure.getParameter() + "|" + measure.getTimeStep() + "|" + measure.isProcessed() + "|"
+				+ measure.getStart() + "|" + measure.getEnd();
 		return row;
 	}
 
