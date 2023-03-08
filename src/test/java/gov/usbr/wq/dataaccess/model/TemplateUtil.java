@@ -54,7 +54,7 @@ public class TemplateUtil
 		TokenContainer token = TokenUtil.getToken();
 		List<TemplateWrapper> templateWrappers = retrieveTemplates(token);
 		final List<String> rows = new ArrayList<>();
-		rows.add("Template ID|Template|Measure|Parameter|Interval|Processed");
+		rows.add("Template ID|Template|Measure|Parameter|Interval|Processed|Start|End");
 		List<Future> futures = new ArrayList<>();
 		for(TemplateWrapper template : templateWrappers)
 		{
