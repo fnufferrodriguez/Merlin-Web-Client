@@ -1,7 +1,9 @@
 package gov.usbr.wq.dataaccess.model;
 
 import gov.usbr.wq.dataaccess.json.QualityVersions;
+import gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper;
 
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -71,4 +73,10 @@ public final class QualityVersionWrapper
     {
         return _qualityVersions.toString();
     }
+
+    public String toJsonString() throws IOException
+    {
+        return MerlinObjectMapper.mapObjectToJson(_qualityVersions);
+    }
+
 }
