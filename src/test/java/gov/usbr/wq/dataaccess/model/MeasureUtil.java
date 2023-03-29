@@ -12,6 +12,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -63,9 +64,9 @@ public class MeasureUtil
 							measure.setSeriesString(measureIdWithQuality.getMeasureId());
 							MeasureWrapper measureWrapper = new MeasureWrapper(measure);
 							int qualityValueId = measureIdWithQuality.getQualityValueId();
-							Instant start = ZonedDateTime.of(2010, 1, 1, 12, 0, 0, 0, ZoneId.of("Etc/GMT+8")).toInstant();
+							Instant start = ZonedDateTime.of(2019, 1, 1, 12, 0, 0, 0, ZoneId.of("Etc/GMT+8")).toInstant();
 							Instant end = ZonedDateTime.of(2020, 1, 1, 12, 0, 0, 0, ZoneId.of("Etc/GMT+8")).toInstant();
-							int maxEventCount = 5;
+							int maxEventCount = -1;
 							boolean eventsFromStartVsEnd = false;
 							retval = retrieveJsonSnippetEventsBySeries(token, measureWrapper, qualityValueId, start, end, maxEventCount,
 									eventsFromStartVsEnd);
@@ -81,24 +82,26 @@ public class MeasureUtil
 				futures.add(future);
 			}
 
-			for (Future<String> future : futures)
-			{
-				String json = null;
+			String json = "{\"Projects\":[";
+			json += futures.stream().map(f -> {
 				try
 				{
-					json = future.get();
-					System.out.println(json);
+					return f.get();
 				}
 				catch(Exception e)
 				{
-					LOGGER.log(Level.SEVERE,"Error retrieving events",e);
+					LOGGER.log(Level.SEVERE, "Error retrieving events", e);
+					return "";
 				}
-			}
+			}).collect(Collectors.joining(",")).toString();
+			json += "]}";
+
+			System.out.println(json);
 			executorService.shutdown();
 		}
 		catch(Throwable t)
 		{
-			LOGGER.log(Level.SEVERE,"Error",t);
+			LOGGER.log(Level.SEVERE, "Error", t);
 		}
 
 	}
@@ -108,7 +111,7 @@ public class MeasureUtil
 		List<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines().collect(Collectors.toList());
 		List<MeasureIdWithQuality> measureIdWithQualities = lines.stream()
 																 .map(s -> s.trim().split("\\|"))
-																 .map(a -> new MeasureIdWithQuality(a[0], a.length > 1 ? Integer.valueOf(a[1]):0))
+																 .map(a -> new MeasureIdWithQuality(a[0], a.length > 1 ? Integer.valueOf(a[1]) : 0))
 																 .collect(Collectors.toList());
 		return measureIdWithQualities;
 	}
@@ -126,18 +129,23 @@ public class MeasureUtil
 		try
 		{
 			ApiConnectionInfo connectionInfo = new ApiConnectionInfo("https://www.grabdata2.com");
-			DataWrapper dataWrapper = new MerlinTimeSeriesDataAccess().getEventsBySeries(connectionInfo, token, measure, qualityVersionId, start, end);
+			DataWrapper dataWrapper = new MerlinTimeSeriesDataAccess().getEventsBySeries(connectionInfo, token, measure, qualityVersionId, start,
+					end);
 			NavigableSet<EventWrapper> events = dataWrapper.getEvents();
 			if(!eventsFromStartVsEnd)
 			{
 				events = events.descendingSet();
 			}
-			Set<EventWrapper> limitedSet = events.stream().limit(maxEventCount).collect(Collectors.toSet());
+			if(maxEventCount == -1)
+			{
+				maxEventCount = events.size();
+			}
+			Set<EventWrapper> limitedSet = events.stream().skip(Math.max(0, events.size() - maxEventCount)).collect(Collectors.toSet());
 			events.clear();
 			events.addAll(limitedSet);
 			DataWrapper limitedDataWrapper = new DataWrapperBuilder().withDataWrapper(dataWrapper).withEvents(events).build();
 
-			return limitedDataWrapper.toString();
+			return limitedDataWrapper.toJsonString();
 		}
 		catch(IOException e)
 		{

@@ -8,6 +8,7 @@
 
 package gov.usbr.wq.dataaccess.model;
 
+import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -22,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import gov.usbr.wq.dataaccess.json.Data;
+import gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper;
 
 import static java.util.stream.Collectors.toList;
 
@@ -189,5 +191,10 @@ public final class DataWrapper
 	public String getDataType()
 	{
 		return _data.getDataType();
+	}
+
+	public String toJsonString() throws IOException
+	{
+		return MerlinObjectMapper.mapObjectToJson(_data);
 	}
 }

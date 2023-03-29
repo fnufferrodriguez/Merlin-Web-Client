@@ -8,10 +8,12 @@
 
 package gov.usbr.wq.dataaccess.model;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import gov.usbr.wq.dataaccess.json.Event;
+import gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper;
 
 /**
  * Created by Ryan Miles
@@ -82,5 +84,11 @@ public final class EventWrapper implements Comparable<EventWrapper>
 	{
 		return _event.toString();
 	}
+
+	public String toJsonString() throws IOException
+	{
+		return MerlinObjectMapper.mapObjectToJson(_event);
+	}
+
 
 }

@@ -9,7 +9,9 @@
 package gov.usbr.wq.dataaccess.model;
 
 import gov.usbr.wq.dataaccess.json.Measure;
+import gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -113,6 +115,12 @@ public final class MeasureWrapper
 	{
 		return getSeriesString().split("/")[3];
 	}
+
+	public String toJsonString() throws IOException
+	{
+		return MerlinObjectMapper.mapObjectToJson(_measure);
+	}
+
 
 
 }
