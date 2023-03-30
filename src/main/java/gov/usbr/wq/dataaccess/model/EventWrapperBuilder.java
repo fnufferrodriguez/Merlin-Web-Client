@@ -4,6 +4,7 @@ package gov.usbr.wq.dataaccess.model;
 import gov.usbr.wq.dataaccess.json.Event;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 public final class EventWrapperBuilder
 {

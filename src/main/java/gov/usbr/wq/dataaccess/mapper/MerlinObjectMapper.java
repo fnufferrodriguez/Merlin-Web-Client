@@ -35,12 +35,12 @@ public final class MerlinObjectMapper
 		{
 			@Override
 			public void serialize(OffsetDateTime offsetDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-					throws IOException,
-						   JsonProcessingException
+					throws IOException
 			{
-				jsonGenerator.writeString(DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(offsetDateTime));
+				jsonGenerator.writeString(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(offsetDateTime));
 			}
 		});
+		simpleModule.addSerializer(Double.class, new DoubleSerializer());
 		OBJECT_MAPPER.registerModule(simpleModule);
 		OBJECT_MAPPER.configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
 		OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -59,5 +59,27 @@ public final class MerlinObjectMapper
 	public static <T> String mapObjectToJson(T object) throws IOException
 	{
 		return OBJECT_MAPPER.writeValueAsString(object);
+	}
+
+	private static class DoubleSerializer extends JsonSerializer<Double> {
+		@Override
+		public void serialize(Double value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+			if (value == null)
+			{
+				gen.writeNull();
+			}
+			else
+			{
+				int intValue = value.intValue();
+				if (intValue == value)
+				{
+					gen.writeNumber(intValue);
+				}
+				else
+				{
+					gen.writeNumber(value);
+				}
+			}
+		}
 	}
 }

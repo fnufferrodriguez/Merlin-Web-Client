@@ -48,8 +48,14 @@ public final class MeasureWrapperBuilder
         measure.setSeriesString(_seriesString);
         measure.setTypID(_typeId);
         measure.setIsProcessed(_isProcessed);
-        measure.setStart(_start.toOffsetDateTime());
-        measure.setEnd(_end.toOffsetDateTime());
+        if(_start != null)
+        {
+            measure.setStart(_start.toOffsetDateTime());
+        }
+        if(_end != null)
+        {
+            measure.setEnd(_end.toOffsetDateTime());
+        }
         return new MeasureWrapper(measure);
     }
 }

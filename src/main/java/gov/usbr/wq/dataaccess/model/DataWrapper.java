@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import gov.usbr.wq.dataaccess.json.Data;
+import gov.usbr.wq.dataaccess.json.Event;
 import gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper;
 
 import static java.util.stream.Collectors.toList;
@@ -41,13 +42,17 @@ public final class DataWrapper
 		_data = data;
 
 		List<EventWrapper> events = new ArrayList<>();
+
 		if (data.getEvents() != null)
 		{
+			for(Event event : data.getEvents())
+			{
+				event.setDate(event.getDate().atZoneSameInstant(ZoneId.of(_data.getTimeZone())).toOffsetDateTime());
+			}
 			events = data.getEvents().stream()
 				.map(EventWrapper::new)
 				.collect(toList());
 		}
-
 		_events.addAll(events);
 	}
 
