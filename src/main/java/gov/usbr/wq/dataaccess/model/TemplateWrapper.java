@@ -8,6 +8,8 @@
 
 package gov.usbr.wq.dataaccess.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import gov.usbr.wq.dataaccess.json.Template;
 import gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper;
 
@@ -20,6 +22,7 @@ import java.util.Objects;
  */
 public final class TemplateWrapper
 {
+	@JsonUnwrapped
 	private final Template _template;
 
 	public TemplateWrapper(Template profile)
@@ -27,11 +30,13 @@ public final class TemplateWrapper
 		_template = profile;
 	}
 
+	@JsonIgnore
 	public Integer getDprId()
 	{
 		return _template.getDprID();
 	}
 
+	@JsonIgnore
 	public String getName()
 	{
 		return _template.getDprName();

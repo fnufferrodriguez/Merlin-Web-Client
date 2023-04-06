@@ -37,4 +37,14 @@ final class MeasureWrapperTest extends ModelTest
         }
 
     }
+
+    @Test
+    void testJsonUnwrapped() throws IOException {
+        String expectedJson = readFileAsString("measurements/Sac._BC_Shasta Boundary Flow.json");
+        List<MeasureWrapper> measureWrappers = MerlinObjectMapper.mapJsonToListOfObjectsUsingClass(expectedJson, Measure.class).stream()
+                .map(MeasureWrapper::new)
+                .collect(toList());
+        String json = MerlinObjectMapper.mapObjectListToJson(measureWrappers);
+        assertEquals(json, expectedJson);
+    }
 }

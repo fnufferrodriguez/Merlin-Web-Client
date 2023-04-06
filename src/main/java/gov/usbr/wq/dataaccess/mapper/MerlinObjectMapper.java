@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import gov.usbr.wq.dataaccess.model.MeasureWrapper;
 
 public final class MerlinObjectMapper
 {
@@ -72,6 +73,10 @@ public final class MerlinObjectMapper
 	public static <T> String mapObjectToJson(T object) throws IOException
 	{
 		return OBJECT_MAPPER.writeValueAsString(object);
+	}
+
+	public static <T> String mapObjectListToJson(List<T> list) throws IOException {
+		return OBJECT_MAPPER.writeValueAsString(list);
 	}
 
 	private static class DoubleSerializer extends JsonSerializer<Double> {

@@ -8,6 +8,9 @@
 
 package gov.usbr.wq.dataaccess.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import gov.usbr.wq.dataaccess.json.Measure;
 import gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper;
 
@@ -21,6 +24,7 @@ import java.util.Objects;
  */
 public final class MeasureWrapper
 {
+	@JsonUnwrapped
 	private final Measure _measure;
 
 	public MeasureWrapper(Measure measure)
@@ -28,26 +32,31 @@ public final class MeasureWrapper
 		_measure = measure;
 	}
 
+	@JsonIgnore
 	public String getSeriesString()
 	{
 		return _measure.getSeriesString();
 	}
 
+	@JsonIgnore
 	public String getTypeId()
 	{
 		return _measure.getTypID();
 	}
 
+	@JsonIgnore
 	public Boolean isProcessed()
 	{
 		return _measure.isIsProcessed();
 	}
 
+	@JsonIgnore
 	public String getType()
 	{
 		return _measure.getType();
 	}
 
+	@JsonIgnore
 	public ZonedDateTime getStart()
 	{
 		ZonedDateTime retVal = null;
@@ -59,6 +68,7 @@ public final class MeasureWrapper
 		return retVal;
 	}
 
+	@JsonIgnore
 	public ZonedDateTime getEnd()
 	{
 		ZonedDateTime retVal = null;
@@ -69,6 +79,7 @@ public final class MeasureWrapper
 		}
 		return retVal;
 	}
+
 
 	@Override
 	public boolean equals(Object o)
@@ -97,25 +108,31 @@ public final class MeasureWrapper
 		return _measure.toString();
 	}
 
+	@JsonIgnore
 	public String getProjectAndSiteAndSensor()
 	{
 		return getSeriesString().split("/")[0];
 	}
+
+	@JsonIgnore
 	public String getParameter()
 	{
 		return getSeriesString().split("/")[1];
 	}
 
+	@JsonIgnore
 	public String getSite()
 	{
 		return getSeriesString().split("/")[1];
 	}
 
+	@JsonIgnore
 	public String getSeriesType()
 	{
 		return getSeriesString().split("/")[2];
 	}
 
+	@JsonIgnore
 	public String getTimeStep()
 	{
 		return getSeriesString().split("/")[3];

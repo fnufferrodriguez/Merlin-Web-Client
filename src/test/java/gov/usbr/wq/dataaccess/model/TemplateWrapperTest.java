@@ -31,4 +31,15 @@ final class TemplateWrapperTest extends ModelTest
         String json = "[" + String.join(",", templatesJson) + "]";
         assertEquals(json, expectedJson);
     }
+
+    @Test
+    void testJsonUnwrapped() throws IOException
+    {
+        String expectedJson = readFileAsString("templates/all_templates.json");
+        List<TemplateWrapper> templateWrappers = MerlinObjectMapper.mapJsonToListOfObjectsUsingClass(expectedJson, Template.class).stream()
+                .map(TemplateWrapper::new)
+                .collect(toList());
+        String json = MerlinObjectMapper.mapObjectListToJson(templateWrappers);
+        assertEquals(json, expectedJson);
+    }
 }
