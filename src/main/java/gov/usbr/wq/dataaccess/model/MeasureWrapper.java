@@ -9,13 +9,13 @@
 package gov.usbr.wq.dataaccess.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import gov.usbr.wq.dataaccess.json.Measure;
 import gov.usbr.wq.dataaccess.mapper.MerlinObjectMapper;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
@@ -31,6 +31,19 @@ public final class MeasureWrapper
 	{
 		_measure = measure;
 	}
+
+	@JsonIgnore
+	public ZoneId getZoneId()
+	{
+		ZoneId retVal = null;
+		ZonedDateTime start = getStart();
+		if(start != null)
+		{
+			retVal = start.getZone();
+		}
+		return retVal;
+	}
+
 
 	@JsonIgnore
 	public String getSeriesString()
