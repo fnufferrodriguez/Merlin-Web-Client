@@ -10,14 +10,11 @@ package gov.usbr.wq.dataaccess.mapper;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -27,7 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import gov.usbr.wq.dataaccess.model.MeasureWrapper;
 
 public final class MerlinObjectMapper
 {
@@ -49,7 +45,7 @@ public final class MerlinObjectMapper
 		simpleModule.addDeserializer(OffsetDateTime.class, new JsonDeserializer<OffsetDateTime>()
 		{
 			@Override
-			public OffsetDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+			public OffsetDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
 				String dateStr = p.getText().trim();
 				return OffsetDateTime.parse(dateStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 			}
