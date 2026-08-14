@@ -3,10 +3,17 @@ plugins {
     id 'jacoco'
 }
 
-compileJava {
-//    options.release = 11
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+// Lock compilation and tests to Java 11 so WAT 1.1 + ResSim 3.5.x can load them
+// while still letting you RUN Gradle on a newer JDK via toolchains.
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(11)
+  }
+}
+
+// Enforce strict cross-compilation targeting Java 11 classfile level (55.0)
+tasks.withType(JavaCompile).configureEach {
+  options.release = 11
 }
 
 java {
